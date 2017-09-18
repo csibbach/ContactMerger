@@ -294,6 +294,7 @@
     <Content Include="Scripts\app\app.viewmodel.js" />
     <Content Include="Scripts\app\common.js" />
     <Content Include="Scripts\app\home.viewmodel.js" />
+    <Content Include="Scripts\components\Contact\Contact.template.html" />
     <Content Include="Scripts\library\bootstrap.js" />
     <Content Include="Scripts\library\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -321,12 +322,13 @@
     <None Include="Scripts\library\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\library\jquery-1.10.2.js" />
     <Content Include="Scripts\library\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\library\knockout-2.3.0.debug.js" />
-    <Content Include="Scripts\library\knockout-2.3.0.js" />
     <Content Include="Scripts\library\knockout.validation.debug.js" />
     <Content Include="Scripts\library\knockout.validation.js" />
+    <Content Include="Scripts\library\knockout\knockout-3.3.0.js" />
     <Content Include="Scripts\library\modernizr-2.6.2.js" />
-    <Content Include="Scripts\library\require.min.js" />
+    <Content Include="Scripts\library\qunit\qunit-1.17.1.js" />
+    <Content Include="Scripts\library\require\require.min.js" />
+    <Content Include="Scripts\library\require\text-2.0.7.js" />
     <Content Include="Scripts\library\respond.js" />
     <Content Include="Scripts\library\respond.min.js" />
     <Content Include="Scripts\library\sammy-0.7.4.js" />
@@ -371,9 +373,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\dataProviders\" />
-    <Folder Include="Scripts\engines\" />
-    <Folder Include="Scripts\models\" />
+    <Folder Include="Scripts\dataProviders\implementations\" />
+    <Folder Include="Scripts\engines\implementations\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -389,10 +390,24 @@
     <Content Include="Scripts\library\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\components\contact\Contact.contracts.ts" />
-    <TypeScriptCompile Include="Scripts\components\contact\Contact.viewModel.ts" />
-    <TypeScriptCompile Include="Scripts\library\require.d.ts" />
+    <TypeScriptCompile Include="Scripts\components\Contact\ContactParams.ts" />
+    <TypeScriptCompile Include="Scripts\components\Contact\Contact.viewModel.ts" />
+    <TypeScriptCompile Include="Scripts\dataProviders\contracts\IContactProvider.ts" />
+    <TypeScriptCompile Include="Scripts\engines\contracts\IMatchingEngine.ts" />
+    <TypeScriptCompile Include="Scripts\enum\EAccountType.ts" />
+    <TypeScriptCompile Include="Scripts\infrastructure\IViewModel.ts" />
+    <TypeScriptCompile Include="Scripts\infrastructure\Kernel.ts" />
+    <TypeScriptCompile Include="Scripts\infrastructure\ViewModelFactory.ts" />
+    <TypeScriptCompile Include="Scripts\library\infuse.d.ts" />
+    <Content Include="Scripts\library\infuse.js" />
+    <TypeScriptCompile Include="Scripts\library\knockout\knockout.d.ts" />
+    <TypeScriptCompile Include="Scripts\library\qunit\qunit.d.ts" />
+    <TypeScriptCompile Include="Scripts\library\require\require.d.ts" />
+    <TypeScriptCompile Include="Scripts\library\require\text.d.ts" />
     <TypeScriptCompile Include="Scripts\main.ts" />
+    <TypeScriptCompile Include="Scripts\models\Account.ts" />
+    <TypeScriptCompile Include="Scripts\models\Contact.ts" />
+    <TypeScriptCompile Include="Scripts\models\ContactList.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

@@ -1,3 +1,5 @@
 ﻿class ContactParams {
 
 }
+
+export = ContactParams;

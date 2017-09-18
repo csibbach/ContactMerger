@@ -7,4 +7,4 @@ define(["require", "exports"], function (require, exports) {
     }());
     return ContactParams;
 });
-//# sourceMappingURL=Contact.contracts.js.map
+//# sourceMappingURL=ContactParams.js.map

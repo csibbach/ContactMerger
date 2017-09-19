@@ -98,6 +98,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataProviders\implementations\ContactProviderTests.cs" />
+    <Compile Include="DataProviders\implementations\GoogleCredentialProviderTests.cs" />
+    <Compile Include="Factories\implementations\ContactFactoryTests.cs" />
+    <Compile Include="Factories\implementations\FlowMetadataFactoryTests.cs" />
+    <Compile Include="Factories\implementations\GoogleServiceFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

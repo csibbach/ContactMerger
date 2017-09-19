@@ -8,7 +8,9 @@ if it was intended to be a lot bigger than it is, and to demonstrate and explain
 best coding practices. Please forgive my use of heavy duty software engineering stuff here- IOC, 
 full unit tests, complex directory layouts, etc. If I was tasked with making this app for a customer,
 or, say, a small in-house tool, I would likely use a considerably simpler tech stack to make development 
-quick. I firmly believe in being practical with my code, simple solutions for simple problems. 
+quick. I firmly believe in being practical with my code, simple solutions for simple problems. Along 
+these lines, I decided to make this only work for one user- despite being a web app- as anything else
+would require persistent storage between requests and one more layer of complexity.
 
 I started with the built-in MVC Single Page Application template. I then proceeded to reorganize a 
 lot of it and remove a lot of stuff that wasn’t mine or that I did not intend to use. My desire is 
@@ -27,7 +29,12 @@ development. My first task was building main.ts, my loader script. It includes a
 framework for organizing Knockout components, bundled together with configuration code for require.js.
 I also brought in Infuse.js as my IOC container for the client side. I was going to skip this but I'm
 so used to have injection available for view models that I was having a hard time working without it.
-I created a view model factory that supports injection for knockout and configured that for use.
+I created a view model factory that supports injection for knockout and configured that for use. It was kind
+of hard to figure out where to stop with some of the framework elements; you'll find knockout component
+registrations and class mappings in the kernel in the .viewModel files themselves. I had this so much cleaner
+in my previous work, but I am not trying to replicate that, I am trying to show a relatively minimal setup.
 
 On the C# side, I started with creating the ContactController as a WebAPI controller. I first brought
-in Ninject as my kernel for IOC as I am most familiar with it, but I've used other 
+in Ninject as my kernel for IOC as I am most familiar with it, but I've used others. The authentication 
+stuff took a long time to figure out. I haven't worked on the API side of things for a few years,
+and figuring out how to make OAuth work securely in the way I want it to was very difficult.o

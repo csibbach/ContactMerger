@@ -1,18 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
+using ContactMerger.DataProviders.contracts;
+using ContactMerger.Models;
 
 namespace ContactMerger.Controllers
 {
     public class ContactController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        private readonly IContactProvider _contactProvider;
+
+        ContactController(IContactProvider contactProvider)
         {
-            return new string[] { "value1", "value2" };
+            _contactProvider = contactProvider;
+        }
+
+        [Authorize]
+        public async Task<ContactList> Get(string accountEmail)
+        {
+            return await _contactProvider.GetContacts(User.Identity.Name, accountEmail);
         }
 
         // GET api/<controller>/5
@@ -22,12 +27,12 @@ namespace ContactMerger.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody]string value)
+        public void Post([FromBody] string value)
         {
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody] string value)
         {
         }
 
@@ -35,5 +40,7 @@ namespace ContactMerger.Controllers
         public void Delete(int id)
         {
         }
+
+        
     }
 }

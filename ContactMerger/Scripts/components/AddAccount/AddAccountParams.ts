@@ -1,0 +1,5 @@
+﻿class AddAccountParams {
+    
+}
+
+export = AddAccountParams;

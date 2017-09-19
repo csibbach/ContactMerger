@@ -8,7 +8,7 @@ namespace ContactMerger.DataProviders.implementations
     {
         private readonly Dictionary<string, List<UserCredential>> _credentials;
 
-        GoogleCredentialProvider()
+        public GoogleCredentialProvider()
         {
             _credentials = new Dictionary<string, List<UserCredential>>();   
         }
@@ -17,13 +17,16 @@ namespace ContactMerger.DataProviders.implementations
         {
             // Get the current list of credentials for this username. Create the list if it doesn't
             // exist.
-            var userCreds = _credentials[username];
-            if (userCreds == null)
+            if (_credentials.ContainsKey(username))
             {
-                userCreds = new List<UserCredential>();
-                _credentials.Add(username, userCreds);
+                var userCreds = _credentials[username];
+                
+                userCreds.Add(credential);
             }
-            userCreds.Add(credential);
+            else
+            {
+                _credentials.Add(username, new List<UserCredential>());
+            }
         }
      
         public IEnumerable<UserCredential> GetCredentials(string username)

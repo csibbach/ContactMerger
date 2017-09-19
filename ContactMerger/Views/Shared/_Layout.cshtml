@@ -8,9 +8,9 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
-    <script data-main="scripts/main" src="/Scripts/library/require/require.min.js"></script>
+    <script src="/Scripts/library/require/require.min.js"></script>
     <script>
-        require(['config'], function() {
+        require(['/Scripts/config.js'], function() {
             require(['main']);
         });
     </script>

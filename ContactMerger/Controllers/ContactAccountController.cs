@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using ContactMerger.DataProviders.contracts;
-using ContactMerger.Utility;
+using ContactMerger.Factories.contracts;
 using Google.Apis.Auth.OAuth2.Mvc;
-using Google.Apis.People.v1;
-using Google.Apis.Services;
 using Microsoft.AspNet.Identity;
 
 namespace ContactMerger.Controllers
@@ -33,6 +28,14 @@ namespace ContactMerger.Controllers
         [Authorize]
         public async Task<ActionResult> AddContactAccount(CancellationToken cancellationToken)
         {
+            // Check the referring URL. If it is from localhost, we are going to start over.
+            // Request a new account on the metadata factory and everything should sync up.
+            if (Request.UrlReferrer.Host == Request.Url.Host) 
+            {
+                // We came from the same page, must be a new Add Account request
+                _flowMetadataFactory.RequestNewAccount();
+            }
+
             // Create a new Authorization Flow- should have a factory for this for testing purposes
             var result = await new AuthorizationCodeMvcApp(this, _flowMetadataFactory.CreateFlowMetadata()).
                 AuthorizeAsync(cancellationToken);
@@ -43,6 +46,7 @@ namespace ContactMerger.Controllers
 
             _googleCredentialProvider.SaveCredential(User.Identity.GetUserName(), result.Credential);
 
+            
 
             //var peopleService = new PeopleService(new BaseClientService.Initializer
             //{
@@ -63,7 +67,7 @@ namespace ContactMerger.Controllers
             //        DownloadUrl = file.DownloadUrl ??
             //                      (file.ExportLinks != null ? file.ExportLinks["application/pdf"] : null),
             //    }).OrderBy(f => f.Title).ToList();
-            return View();
+            return new RedirectResult("/");
         }
     }
 }

@@ -15,6 +15,7 @@ namespace ContactMerger.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
+    using ContactMerger.DataProviders.implementations;
 
     public static class NinjectWebCommon 
     {
@@ -68,9 +69,9 @@ namespace ContactMerger.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<IFlowMetadataFactory>().To<FlowMetadataFactory>();
-            kernel.Bind<IGoogleCredentialProvider>().To<IGoogleCredentialProvider>().InSingletonScope();
-            kernel.Bind<IContactProvider>().To<DataProviders.implementations.ContactProvider>();
+            kernel.Bind<IFlowMetadataFactory>().To<FlowMetadataFactory>().InSingletonScope();
+            kernel.Bind<IGoogleCredentialProvider>().To<GoogleCredentialProvider>().InSingletonScope();
+            kernel.Bind<IContactProvider>().To<ContactProvider>();
             kernel.Bind<IContactFactory>().To<ContactFactory>().InSingletonScope();
             kernel.Bind<IGoogleServiceFactory>().To<GoogleServiceFactory>().InSingletonScope();
         }        

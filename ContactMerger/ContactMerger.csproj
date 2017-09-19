@@ -349,7 +349,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="client_secrets.json" />
     <Content Include="Scripts\library\jquery\jquery-3.2.1.slim.min.map" />
     <Content Include="Scripts\library\jquery\jquery-3.2.1.min.map" />
     <Content Include="Scripts\library\knockout\knockout.validation.min.js.map" />

@@ -7,12 +7,13 @@ using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Mvc;
 using Google.Apis.People.v1;
 using Google.Apis.Util.Store;
-using Microsoft.AspNet.Identity;
 
 namespace ContactMerger.Utility
 {
     public class AppFlowMetadata : FlowMetadata
     {
+        private readonly string _username;
+
         private static readonly IAuthorizationCodeFlow FlowInstance =
             new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
             {
@@ -26,12 +27,22 @@ namespace ContactMerger.Utility
                 // in a FileDataStore. However, for purposes of this project this will work;
                 // implementing a proper database-based DataStore is more work than I want
                 // to do right now.
-                DataStore = new FileDataStore("ContactMerger") // This
+                DataStore = new FileDataStore("ContactMerger")
             });
+        public AppFlowMetadata(string username)
+        {
+            _username = username;
+        }
 
         public override string GetUserId(Controller controller)
         {
-            return controller.User.Identity.GetUserName();
+            // AH HA. Found the issue. Basically, google's auth stuff uses this user name here
+            // to determine if it has a credential already or if it can use one from the data
+            // store. Setting it to the user name would result in only 1 credential for any
+            // given user. The way I want it to work is every time I try to do an auth it
+            // will re-auth the whole process. 
+            //return controller.User.Identity.GetUserName();
+            return _username;
         }
 
         public override IAuthorizationCodeFlow Flow

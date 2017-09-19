@@ -1,4 +1,4 @@
-﻿using ContactMerger.Utility;
+﻿using ContactMerger.Factories.contracts;
 
 namespace ContactMerger.Controllers
 {

@@ -406,28 +406,31 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\" />
     <Folder Include="Engines\" />
-    <Folder Include="Scripts\dataProviders\implementations\" />
     <Folder Include="Scripts\engines\implementations\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\components\AddAccount\AddAccount.template.html" />
-    <TypeScriptCompile Include="Scripts\components\AddAccount\AddAccountParams.ts" />
-    <TypeScriptCompile Include="Scripts\components\AddAccount\AddAccount.viewModel.ts" />
+    <Content Include="Scripts\components\AccountList\AccountList.template.html" />
+    <TypeScriptCompile Include="Scripts\components\AccountList\AccountListParams.ts" />
+    <TypeScriptCompile Include="Scripts\components\AccountList\AccountList.viewModel.ts" />
     <TypeScriptCompile Include="Scripts\components\ContactMerger\ContactMerger.viewModel.ts" />
     <TypeScriptCompile Include="Scripts\components\Contact\ContactParams.ts" />
     <TypeScriptCompile Include="Scripts\components\Contact\Contact.viewModel.ts" />
     <TypeScriptCompile Include="Scripts\config.ts" />
-    <TypeScriptCompile Include="Scripts\dataProviders\contracts\IContactProvider.ts" />
+    <TypeScriptCompile Include="Scripts\dataProviders\contracts\IContactAccountConnector.ts" />
+    <TypeScriptCompile Include="Scripts\dataProviders\contracts\IContactConnector.ts" />
+    <TypeScriptCompile Include="Scripts\dataProviders\implementations\ContactAccountConnector.ts" />
     <TypeScriptCompile Include="Scripts\engines\contracts\IMatchingEngine.ts" />
     <TypeScriptCompile Include="Scripts\enum\EAccountType.ts" />
     <TypeScriptCompile Include="Scripts\infrastructure\IViewModel.ts" />
     <TypeScriptCompile Include="Scripts\infrastructure\Kernel.ts" />
     <TypeScriptCompile Include="Scripts\infrastructure\ViewModelFactory.ts" />
+    <TypeScriptCompile Include="Scripts\library\es6-promise.d.ts" />
     <TypeScriptCompile Include="Scripts\library\infuse.d.ts" />
     <Content Include="Scripts\library\infuse.js" />
+    <TypeScriptCompile Include="Scripts\library\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\library\knockout\knockout.d.ts" />
     <TypeScriptCompile Include="Scripts\library\qunit\qunit.d.ts" />
     <TypeScriptCompile Include="Scripts\library\require\require.d.ts" />

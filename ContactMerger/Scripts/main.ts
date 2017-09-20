@@ -2,9 +2,10 @@
 import ViewModelFactory = require("infrastructure/ViewModelFactory");
 import IViewModel = require("infrastructure/IViewModel");
 import kernel = require("infrastructure/Kernel");
-import AddAccountViewModel = require("components/AddAccount/AddAccount.viewModel");
+import AccountListViewModel = require("components/AccountList/AccountList.viewModel");
 import ContactViewModel = require("components/Contact/Contact.viewModel");
 import ContactMergerViewModel = require("components/ContactMerger/ContactMerger.viewModel");
+import ContactAccountConnector = require("dataProviders/implementations/ContactAccountConnector");
 
 function registerComponent(componentName: string, viewModel: Function) {
     // Register the component. Could go nuts, this should typically handled centrally but I'm not creating
@@ -13,11 +14,11 @@ function registerComponent(componentName: string, viewModel: Function) {
         {
             viewModel: {
                 createViewModel: (params: any, componentInfo: KnockoutComponentTypes.ComponentInfo): IViewModel => {
-                    return ViewModelFactory.createViewModel("AddAccount", params, componentInfo);
+                    return ViewModelFactory.createViewModel(componentName, params, componentInfo);
                 }
             },
             template: {
-                require: "text!components/AddAccount/AddAccount.template.html"
+                require: "text!components/" + componentName + "/" + componentName + ".template.html"
             }
         });
 
@@ -26,11 +27,12 @@ function registerComponent(componentName: string, viewModel: Function) {
 }
 
 // Register all the components we're going to use
-registerComponent("AddAccount", AddAccountViewModel);
+registerComponent("AccountList", AccountListViewModel);
 registerComponent("Contact", ContactViewModel);
 registerComponent("ContactMerger", ContactMergerViewModel);
 
 // Bind engines and data providers and whatever else
+kernel.mapClass("IContactAccountConnector", ContactAccountConnector);
 
 // Kick off knockout to do its thang...
 ko.applyBindings();

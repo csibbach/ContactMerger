@@ -22,7 +22,12 @@ namespace ContactMerger.Utility
                     ClientId = Setting<string>("GoogClientID"),
                     ClientSecret = Setting<string>("GoogClientSecret")
                 },
-                Scopes = new[] { PeopleService.Scope.Contacts, PeopleService.Scope.UserEmailsRead, PeopleService.Scope.UserinfoEmail },
+                Scopes = new[]
+                {
+                    PeopleService.Scope.Contacts,
+                    PeopleService.Scope.UserinfoEmail,
+                    PeopleService.Scope.UserinfoProfile
+                },
                 // This is pretty bad, we would not ordinarily store this info for a web app
                 // in a FileDataStore. However, for purposes of this project this will work;
                 // implementing a proper database-based DataStore is more work than I want

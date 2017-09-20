@@ -35,7 +35,7 @@ textarea {
     }
 }
 
-.AddAccount {
+.AccountList {
     
 }
 
@@ -43,4 +43,6 @@ textarea {
     
 }
 
-.AddAccountIFrame {}
+.AccountListIFrame {}
+
+.AccountList .AccountNames {}

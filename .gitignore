@@ -260,3 +260,7 @@ paket-files/
 __pycache__/
 *.pyc
 /ContactMerger/secret.config
+*.map
+**/Scripts/components/**/*.js
+**/Scripts/dataProviders/**/*.js
+**/Scripts/engines/**/*.js

@@ -1,14 +1,14 @@
-define(["require", "exports", "components/AddAccount/AddAccountParams"], function (require, exports, AddAccountParams) {
+define(["require", "exports", "components/AccountList/AccountListParams"], function (require, exports, AccountListParams) {
     "use strict";
     var ContactMerger = (function () {
         function ContactMerger() {
             // Injection here
         }
         ContactMerger.prototype.setup = function (params) {
-            this.setupAddAccount();
+            this.setupAccountList();
         };
-        ContactMerger.prototype.setupAddAccount = function () {
-            this.addAccount = new AddAccountParams();
+        ContactMerger.prototype.setupAccountList = function () {
+            this.accountList = new AccountListParams();
         };
         return ContactMerger;
     }());

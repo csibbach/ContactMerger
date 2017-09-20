@@ -1,19 +1,19 @@
 ﻿import ko = require("knockout");
-import AddAccountParams = require("components/AddAccount/AddAccountParams");
+import AccountListParams = require("components/AccountList/AccountListParams");
 
 class ContactMerger {
-    public addAccount: AddAccountParams;
+    public accountList: AccountListParams;
 
     constructor() {
         // Injection here
     }
 
     setup(params: any) {
-        this.setupAddAccount();
+        this.setupAccountList();
     }
 
-    private setupAddAccount() {
-        this.addAccount = new AddAccountParams();
+    private setupAccountList() {
+        this.accountList = new AccountListParams();
     }
 }
 

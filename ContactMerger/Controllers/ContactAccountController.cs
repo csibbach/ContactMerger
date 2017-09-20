@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -26,11 +26,17 @@ namespace ContactMerger.Controllers
         // under the authorized user in the credential provider, so that it can be used in other
         // calls.
         [Authorize]
+        [RequireHttps]
         public async Task<ActionResult> AddContactAccount(CancellationToken cancellationToken)
         {
             // Check the referring URL. If it is from localhost, we are going to start over.
             // Request a new account on the metadata factory and everything should sync up.
-            if (Request.UrlReferrer.Host == Request.Url.Host) 
+            // There's no security from referrer spoofing, but I don't think that constitutes
+            // a security vulnerability in this case, as things will either just break or the
+            // credential will not be properly claimed.
+            if (Request.Url != null && 
+                Request.UrlReferrer != null && 
+                Request.UrlReferrer.Host == Request.Url.Host) 
             {
                 // We came from the same page, must be a new Add Account request
                 _flowMetadataFactory.RequestNewAccount();
@@ -44,30 +50,21 @@ namespace ContactMerger.Controllers
             if (result.Credential == null)
                 return new RedirectResult(result.RedirectUri);
 
-            _googleCredentialProvider.SaveCredential(User.Identity.GetUserName(), result.Credential);
-
+            // Save the credential
+            await _googleCredentialProvider.SaveCredential(User.Identity.GetUserName(), result.Credential);
             
-
-            //var peopleService = new PeopleService(new BaseClientService.Initializer
-            //{
-            //    HttpClientInitializer = result.Credential,
-            //    ApplicationName = "ClientMerger"
-            //});
-
-            //var listReq = driveService.Files.List();
-            //listReq.Fields = "items/title,items/id,items/createdDate,items/downloadUrl,items/exportLinks";
-            //var list = await listReq.ExecuteAsync();
-            //var items =
-            //(from file in list.Items
-            //    select new FileModel
-            //    {
-            //        Title = file.Title,
-            //        Id = file.Id,
-            //        CreatedDate = file.CreatedDate,
-            //        DownloadUrl = file.DownloadUrl ??
-            //                      (file.ExportLinks != null ? file.ExportLinks["application/pdf"] : null),
-            //    }).OrderBy(f => f.Title).ToList();
+            // Go back to home and resume spa-like behavior
             return new RedirectResult("/");
+        }
+
+        [Authorize]
+        [HttpGet]
+        [RequireHttps]
+        public ActionResult GetAccounts()
+        {
+            var credentials = _googleCredentialProvider.GetCredentials(User.Identity.GetUserName());
+
+            return Json(credentials.Keys.ToArray(), JsonRequestBehavior.AllowGet);
         }
     }
 }

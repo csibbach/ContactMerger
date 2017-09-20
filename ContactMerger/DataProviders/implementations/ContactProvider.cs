@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ContactMerger.DataProviders.contracts;
 using ContactMerger.Factories.contracts;
@@ -37,15 +36,12 @@ namespace ContactMerger.DataProviders.implementations
             var userCredentials = _googleCredentialProvider.GetCredentials(username);
 
             // Get the stored credential
-            // Note, I use LINQ along with foreach and other methods, depends on what is easier
-            // to read. Usually loops that are 1 deep are LINQ, more than that I write
-            UserCredential userCredential = userCredentials.FirstOrDefault(tempCredential => tempCredential.UserId == accountEmail);
-
-            // If there is no user credential, bail out here, return an empty list
-            if (userCredential == null)
+            if (!userCredentials.ContainsKey(accountEmail))
             {
+                // If there is no user credential, bail out here, return an empty list
                 return returnList;
             }
+            UserCredential userCredential = userCredentials[accountEmail];
 
             // Create a Google service object
             var peopleService = _googleServiceFactory.CreatePeopleService(userCredential);

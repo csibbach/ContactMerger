@@ -1,5 +1,0 @@
-﻿class AddAccountParams {
-    
-}
-
-export = AddAccountParams;

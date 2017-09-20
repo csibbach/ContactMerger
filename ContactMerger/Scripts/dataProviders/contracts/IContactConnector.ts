@@ -1,9 +1,9 @@
 ﻿import ContactList = require("models/Contact");
 import Account = require("models/Account");
 
-interface IContactProvider {
+interface IContactConnector {
     getContacts(account: Account): ContactList;
 
 };
 
-export = IContactProvider;
+export = IContactConnector;

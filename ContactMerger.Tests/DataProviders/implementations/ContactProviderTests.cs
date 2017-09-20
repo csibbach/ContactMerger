@@ -2,10 +2,10 @@
 
 namespace ContactMerger.Tests.DataProviders.implementations
 {
-    [TestClass()]
+    [TestClass]
     public class ContactProviderTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void GetContactsTest()
         {
             Assert.Fail();

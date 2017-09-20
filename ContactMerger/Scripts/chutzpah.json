@@ -1,0 +1,19 @@
+﻿{
+  "Framework": "qunit",
+  "TestHarnessReferenceMode": "AMD",
+  "TestHarnessLocationMode": "SettingsFileAdjacent",
+  //"AMDBaseUrl": "/",
+  //"AMDAppDirectory": "./",
+  "References": [
+    { "Path": "library/require/require.min.js" },
+    { "Path": "config.js" }
+  ],
+  "Compile": {
+    "Mode": "External",
+    "Extensions": [".ts"],
+    "ExtensionsWithNoOutput": [".d.ts"]
+  },
+  "CodeCoverageExecutionMode": "Manual",
+  "CodeCoverageExcludes": ["library/*"],
+  "TestFileTimeout": 20000
+}

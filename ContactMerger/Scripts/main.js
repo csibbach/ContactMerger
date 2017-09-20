@@ -1,4 +1,4 @@
-define(["require", "exports", "knockout", "infrastructure/ViewModelFactory", "infrastructure/Kernel", "components/AccountList/AccountList.viewModel", "components/Contact/Contact.viewModel", "components/ContactMerger/ContactMerger.viewModel", "dataProviders/implementations/ContactAccountConnector"], function (require, exports, ko, ViewModelFactory, kernel, AccountListViewModel, ContactViewModel, ContactMergerViewModel, ContactAccountConnector) {
+define(["require", "exports", "knockout", "infrastructure/ViewModelFactory", "infrastructure/Kernel", "components/AccountList/AccountList.viewModel", "components/ContactLineItem/ContactLineItem.viewModel", "components/ContactMerger/ContactMerger.viewModel", "dataProviders/implementations/ContactAccountConnector"], function (require, exports, ko, ViewModelFactory, kernel, AccountListViewModel, ContactLineItemViewModel, ContactMergerViewModel, ContactAccountConnector) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function registerComponent(componentName, viewModel) {
@@ -19,7 +19,7 @@ define(["require", "exports", "knockout", "infrastructure/ViewModelFactory", "in
     }
     // Register all the components we're going to use
     registerComponent("AccountList", AccountListViewModel);
-    registerComponent("Contact", ContactViewModel);
+    registerComponent("ContactLineItem", ContactLineItemViewModel);
     registerComponent("ContactMerger", ContactMergerViewModel);
     // Bind engines and data providers and whatever else
     kernel.mapClass("IContactAccountConnector", ContactAccountConnector);

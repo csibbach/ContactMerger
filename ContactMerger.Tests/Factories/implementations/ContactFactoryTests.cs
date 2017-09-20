@@ -2,16 +2,16 @@
 
 namespace ContactMerger.Tests.Factories.implementations
 {
-    [TestClass()]
+    [TestClass]
     public class ContactFactoryTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void CreateContactTest()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void CreateContactListTest()
         {
             Assert.Fail();

@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace ContactMerger.Models
+﻿namespace ContactMerger.Models
 {
     public class ContactAccount
     {
-        public string AccountIdentifier;
+        public string AccountEmail;
+        public EContactAccountType ContactAccountType;
+    }
+
+    public enum EContactAccountType
+    {
+        Google,
+        Facebook
     }
 }

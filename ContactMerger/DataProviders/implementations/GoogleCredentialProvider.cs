@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ContactMerger.DataProviders.contracts;
@@ -68,7 +69,7 @@ namespace ContactMerger.DataProviders.implementations
             return email;
         }
      
-        public IDictionary<string, UserCredential> GetCredentials(string username)
+        public Task<IDictionary<string, UserCredential>> GetCredentials(string username)
         {
             // Make sure to return a list, even an empty one. Just makes life easier!
             // Get the current list of credentials for this username. Create the list if it doesn't
@@ -78,12 +79,12 @@ namespace ContactMerger.DataProviders.implementations
                 var userCreds = _credentials[username];
 
                 // Return just a list of stored credentials without the dictionary keying.
-                return userCreds;
+                return Task.FromResult(userCreds as IDictionary<string, UserCredential>);
             }
 
             // Does not already have credentials
             _credentials.Add(username, new Dictionary<string, UserCredential>());
-            return _credentials[username];
+            return Task.FromResult(_credentials[username] as IDictionary<string, UserCredential>);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿import ko = require("knockout");
+import ContactLineItemParams = require("components/ContactLineItem/ContactLineItemParams");
 
-class Contact {
+class ContactLineItem {
     public firstName: string;
     public lastName: string;
     public email: string;
@@ -9,9 +10,9 @@ class Contact {
         // Injection here
     }
 
-    setup(params: any) {
+    setup(params: ContactLineItemParams) {
 
     }
 }
 
-export = Contact;
+export = ContactLineItem;

@@ -33,7 +33,7 @@ namespace ContactMerger.DataProviders.implementations
 
             // Get the credential for that email. If it's not registered already we just return
             // an empty ContactList.
-            var userCredentials = _googleCredentialProvider.GetCredentials(username);
+            var userCredentials = await _googleCredentialProvider.GetCredentials(username);
 
             // Get the stored credential
             if (!userCredentials.ContainsKey(accountEmail))

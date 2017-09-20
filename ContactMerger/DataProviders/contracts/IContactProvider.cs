@@ -3,7 +3,7 @@ using ContactMerger.Models;
 
 namespace ContactMerger.DataProviders.contracts
 {
-    interface IContactProvider
+    public interface IContactProvider
     {
         Task<ContactList> GetContacts(string username, string accountEmail);
     }

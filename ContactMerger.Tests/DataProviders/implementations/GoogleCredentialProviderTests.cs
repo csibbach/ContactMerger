@@ -11,7 +11,7 @@ namespace ContactMerger.Tests.DataProviders.implementations
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetCredentialsTest()
         {
             Assert.Fail();

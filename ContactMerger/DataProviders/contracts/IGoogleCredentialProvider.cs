@@ -9,6 +9,6 @@ namespace ContactMerger.DataProviders.contracts
         // SaveCredential saves the credential into memory, and returns the email address
         // associated with it.
         Task<string> SaveCredential(string username, UserCredential credential);
-        IDictionary<string, UserCredential> GetCredentials(string username);
+        Task<IDictionary<string, UserCredential>> GetCredentials(string username);
     }
 }

@@ -293,6 +293,8 @@
     <Compile Include="DataProviders\implementations\ContactProvider.cs" />
     <Compile Include="DataProviders\implementations\GoogleCredentialProvider.cs" />
     <Compile Include="DataProviders\implementations\WebConfigSettingsProvider.cs" />
+    <Compile Include="Engines\contracts\IContactMatchingEngine.cs" />
+    <Compile Include="Engines\implementations\ContactMatchingEngine.cs" />
     <Compile Include="Factories\contracts\IContactFactory.cs" />
     <Compile Include="Factories\contracts\IGoogleServiceFactory.cs" />
     <Compile Include="Factories\implementations\ContactFactory.cs" />
@@ -304,6 +306,8 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\ContactList.cs" />
+    <Compile Include="Models\ContactRelationship.cs" />
+    <Compile Include="Models\ContactSet.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MeViewModels.cs" />
@@ -328,7 +332,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\components\ContactMerger\ContactMerger.template.html" />
-    <Content Include="Scripts\components\Contact\Contact.template.html" />
+    <Content Include="Scripts\components\ContactLineItem\ContactLineItem.template.html" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -337,6 +341,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Scripts\chutzpah.json" />
     <None Include="Scripts\library\jquery\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\library\jquery\jquery-3.2.1.js" />
     <Content Include="Scripts\library\jquery\jquery-3.2.1.min.js" />
@@ -405,7 +410,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\" />
-    <Folder Include="Engines\" />
+    <Folder Include="Scripts\components\ContactList\" />
     <Folder Include="Scripts\engines\implementations\" />
   </ItemGroup>
   <ItemGroup>
@@ -416,8 +421,8 @@
     <TypeScriptCompile Include="Scripts\components\AccountList\AccountListParams.ts" />
     <TypeScriptCompile Include="Scripts\components\AccountList\AccountList.viewModel.ts" />
     <TypeScriptCompile Include="Scripts\components\ContactMerger\ContactMerger.viewModel.ts" />
-    <TypeScriptCompile Include="Scripts\components\Contact\ContactParams.ts" />
-    <TypeScriptCompile Include="Scripts\components\Contact\Contact.viewModel.ts" />
+    <TypeScriptCompile Include="Scripts\components\ContactLineItem\ContactLineItemParams.ts" />
+    <TypeScriptCompile Include="Scripts\components\ContactLineItem\ContactLineItem.viewModel.ts" />
     <TypeScriptCompile Include="Scripts\config.ts" />
     <TypeScriptCompile Include="Scripts\dataProviders\contracts\IContactAccountConnector.ts" />
     <TypeScriptCompile Include="Scripts\dataProviders\contracts\IContactConnector.ts" />
@@ -439,6 +444,10 @@
     <TypeScriptCompile Include="Scripts\models\Account.ts" />
     <TypeScriptCompile Include="Scripts\models\Contact.ts" />
     <TypeScriptCompile Include="Scripts\models\ContactList.ts" />
+    <TypeScriptCompile Include="Scripts\tests\components\AccountList.test.ts" />
+    <TypeScriptCompile Include="Scripts\tests\mocks\dataProviders\ContactAccountConnectorMock.ts" />
+    <TypeScriptCompile Include="Scripts\tests\utility\PromiseControls.ts" />
+    <TypeScriptCompile Include="Scripts\tests\utility\PromiseUtils.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

@@ -60,9 +60,9 @@ namespace ContactMerger.Controllers
         [Authorize]
         [HttpGet]
         [RequireHttps]
-        public ActionResult GetAccounts()
+        public async Task<ActionResult> GetAccounts()
         {
-            var credentials = _googleCredentialProvider.GetCredentials(User.Identity.GetUserName());
+            var credentials = await _googleCredentialProvider.GetCredentials(User.Identity.GetUserName());
 
             return Json(credentials.Keys.ToArray(), JsonRequestBehavior.AllowGet);
         }

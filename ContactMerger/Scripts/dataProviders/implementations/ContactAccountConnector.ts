@@ -1,7 +1,7 @@
 ﻿import $ = require("jquery");
-import AccountConnector = require("dataProviders/contracts/IContactAccountConnector");
+import IContactAccountConnector = require("dataProviders/contracts/IContactAccountConnector");
 
-class ContactAccountConnector implements AccountConnector {
+class ContactAccountConnector implements IContactAccountConnector {
     public getContactAccounts(): Promise<string[]> {
         return Promise.resolve($.get("/ContactAccount/getAccounts"));
     }

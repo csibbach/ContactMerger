@@ -19,7 +19,23 @@ class ContactList {
 
     private setupAccountNames() {
         this.accountNames = ko.computed(() => {
-            return this.contactSet().accounts;
+            var names = new Array<string>();
+            
+            // KO optimization; unwrap an observable before a loop
+            var contactSet = this.contactSet();
+
+            // Return an empty list if the contact set is not set
+            if (contactSet == null)
+                return names;
+
+            // Yes, I'm using for-in correctly here, I want to iterate over the keys
+            for (var accountName in contactSet.contactGrid) {
+                if (contactSet.contactGrid.hasOwnProperty(accountName)) {
+                    names.push(accountName);
+                }
+            }
+
+            return names;
         });
     }
 }

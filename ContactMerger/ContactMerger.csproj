@@ -447,7 +447,6 @@
     <TypeScriptCompile Include="Scripts\main.ts" />
     <TypeScriptCompile Include="Scripts\models\Account.ts" />
     <TypeScriptCompile Include="Scripts\models\Contact.ts" />
-    <TypeScriptCompile Include="Scripts\models\ContactRelationship.ts" />
     <TypeScriptCompile Include="Scripts\models\ContactSet.ts" />
     <TypeScriptCompile Include="Scripts\tests\components\AccountList.test.ts" />
     <TypeScriptCompile Include="Scripts\tests\mocks\dataProviders\AjaxConnectorMock.ts" />

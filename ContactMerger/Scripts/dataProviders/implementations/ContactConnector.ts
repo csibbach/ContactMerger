@@ -16,9 +16,7 @@ class ContactConnector implements IContactConnector {
     }
 
     public getContacts(): Promise<ContactSet> {
-        return this.ajaxConnector.get("/Contact/GetContactSet").then((response: IContactSetResponse) => {
-            return new ContactSet();
-        });
+        return this.ajaxConnector.get("/Contact/GetContactSet");
     }
 };
 

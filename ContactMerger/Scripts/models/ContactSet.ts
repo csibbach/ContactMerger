@@ -1,9 +1,7 @@
-﻿import Account = require("models/Account");
-import ContactRelationship = require("models/ContactRelationship");
+﻿import Contact = require("models/Contact");
 
 class ContactSet {
-    public accounts: Account[];
-    public contacts: ContactRelationship[];
+    public contactGrid: { [email: string]: Contact[]};
 }
 
 export = ContactSet;

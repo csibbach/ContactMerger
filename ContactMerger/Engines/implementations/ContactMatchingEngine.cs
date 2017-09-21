@@ -76,7 +76,11 @@ namespace ContactMerger.Engines.implementations
 
             // I'm going to say they match if EITHER the email matches or the first and last names 
             // match.
-            return Task.FromResult(email1 == email2  || firstName1 == firstName2 && lastName1 == lastName2);
+            var emailMatches = email1 == email2 && email1 != "" && email2 != "";
+            var firstNameMatches = firstName1 == firstName2 && firstName1 != "" && firstName2 != "";
+            var lastNameMatches = lastName1 == lastName2 && lastName1 != "" && lastName2 != "";
+
+            return Task.FromResult(emailMatches || firstNameMatches && lastNameMatches);
         }
 
         protected void UpdateContactRow(Contact contact, string accountEmail,
@@ -131,11 +135,11 @@ namespace ContactMerger.Engines.implementations
             {
                 if (column.Key == accountEmail)
                 {
-                    column.Value.Add(_contactFactory.CreateContactRelationship(contact));
+                    column.Value.Add(_contactFactory.CreateContactRelationship(contact, column.Key));
                 }
                 else
                 {
-                    column.Value.Add(_contactFactory.CreateEmptyContactRelationship());
+                    column.Value.Add(_contactFactory.CreateEmptyContactRelationship(column.Key));
                 }
             }
         }

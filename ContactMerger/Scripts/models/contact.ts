@@ -8,6 +8,7 @@ class Contact {
     public lastNameMatches: boolean;
     public emailMatches: boolean;
     public contactExists: boolean;
+    public accountEmail: string;
 }
 
 export = Contact;

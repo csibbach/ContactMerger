@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using ContactMerger.DataProviders.contracts;
 using ContactMerger.Factories.contracts;
+using ContactMerger.Models;
 using ContactMerger.Utility;
 using Google.Apis.Auth.OAuth2.Mvc;
 using Microsoft.AspNet.Identity;
@@ -14,12 +16,15 @@ namespace ContactMerger.Controllers
     {
         private readonly IFlowMetadataFactory _flowMetadataFactory;
         private readonly IGoogleCredentialProvider _googleCredentialProvider;
+        private readonly IContactFactory _contactFactory;
 
         public ContactAccountController(IFlowMetadataFactory flowMetadataFactory,
-            IGoogleCredentialProvider googleCredentialProvider)
+            IGoogleCredentialProvider googleCredentialProvider,
+            IContactFactory contactFactory)
         {
             _flowMetadataFactory = flowMetadataFactory;
             _googleCredentialProvider = googleCredentialProvider;
+            _contactFactory = contactFactory;
         }
 
         // This endpoint exists only to walk the user through giving us authentication
@@ -28,7 +33,7 @@ namespace ContactMerger.Controllers
         // calls.
         [Authorize]
         [RequireHttps]
-        public async Task<ActionResult> AddContactAccount(CancellationToken cancellationToken)
+        public async Task<ActionResult> AddGoogleContactAccount(CancellationToken cancellationToken)
         {
             // Check the referring URL. If it is from localhost, we are going to start over.
             // Request a new account on the metadata factory and everything should sync up.
@@ -63,9 +68,14 @@ namespace ContactMerger.Controllers
         [RequireHttps]
         public async Task<ActionResult> GetAccounts()
         {
+            var returnList = new List<ContactAccount>();
+
+            // Get the google accounts; other types added later
             var credentials = await _googleCredentialProvider.GetCredentials(User.Identity.GetUserName());
 
-            return new JsonCamelCaseResult(credentials.Keys.ToArray(), JsonRequestBehavior.AllowGet);
+            returnList.AddRange(credentials.Select(x => _contactFactory.CreateContactAccount(x.Key, EContactAccountType.Google)));
+
+            return new JsonCamelCaseResult(returnList, JsonRequestBehavior.AllowGet);
         }
     }
 }

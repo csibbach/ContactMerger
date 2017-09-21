@@ -1,5 +1,9 @@
-﻿<div class="ContactMerger">
-    <div data-bind="component:{name: 'AccountList', params: accountList}"></div>
-    <a data-bind="click: fetchContacts">Fetch Contacts</a>
-    <div data-bind="component:{name: 'ContactList', params: contactList}, visible: showContactList"></div>
+﻿<div class="ContactMerger row">
+    <div class="row error-message" data-bind="visible: showErrorMessage">Could not fetch contacts!</div>
+    <div class="col-md-3">
+        <div data-bind="component:{name: 'AccountList', params: accountList}"></div>
+        <button class="btn btn-primary" data-bind="click: fetchContacts">Fetch Contacts</button>
+    </div>
+
+    <div class="col-md-9" data-bind="component:{name: 'ContactList', params: contactList}, visible: showContactList"></div>
 </div>

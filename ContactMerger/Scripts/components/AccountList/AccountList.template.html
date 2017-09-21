@@ -1,6 +1,11 @@
 ﻿<div class="AccountList">
-    <ul class="AccountNames" data-bind="foreach: accountNames">
-        <li data-bind="text: $data"></li>
+    <ul data-bind="foreach: accountNames">
+        <li class="AccountLineItem">
+            <img src="/Content/social-facebook-icon.png" data-bind="visible: showFacebookIcon" />
+            <img src="/Content/Google-app-icon-small.png" data-bind="visible: showGoogleIcon" />
+            <span data-bind="text: accountName"></span>
+        </li>
     </ul>
-    <a href="/ContactAccount/AddContactAccount">Add Account</a>
+    <a class="btn btn-default" href="/ContactAccount/AddGoogleContactAccount" role="button">Add Google Account</a>
+    <div class="has-error" data-bind="visible: showErrorMessage">Unable to retrieve registered accounts!</div>
 </div>

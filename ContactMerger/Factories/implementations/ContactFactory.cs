@@ -52,7 +52,7 @@ namespace ContactMerger.Factories.implementations
             return set;
         }
 
-        public ContactRelationship CreateContactRelationship(Contact contact)
+        public ContactRelationship CreateContactRelationship(Contact contact, string accountEmail)
         {
             return new ContactRelationship
             {
@@ -62,11 +62,12 @@ namespace ContactMerger.Factories.implementations
                 FirstNameMatches = true,
                 LastNameMatches = true,
                 EmailMatches = true,
-                ContactExists = true
+                ContactExists = true,
+                AccountEmail = accountEmail
             };
         }
 
-        public ContactRelationship CreateEmptyContactRelationship()
+        public ContactRelationship CreateEmptyContactRelationship(string accountEmail)
         {
             return new ContactRelationship
             {
@@ -76,7 +77,8 @@ namespace ContactMerger.Factories.implementations
                 FirstNameMatches = true,
                 LastNameMatches = true,
                 EmailMatches = true,
-                ContactExists = false
+                ContactExists = false,
+                AccountEmail = accountEmail
             };
         }
     }

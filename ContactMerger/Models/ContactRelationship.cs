@@ -8,5 +8,6 @@ namespace ContactMerger.Models
         public bool LastNameMatches;
         public bool EmailMatches;
         public bool ContactExists;
+        public string AccountEmail;
     }
 }

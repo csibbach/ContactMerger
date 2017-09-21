@@ -1,4 +1,4 @@
-define(["require", "exports", "knockout", "infrastructure/ViewModelFactory", "infrastructure/Kernel", "components/AccountList/AccountList.viewModel", "components/ContactLineItem/ContactLineItem.viewModel", "components/ContactList/ContactList.viewModel", "components/ContactMerger/ContactMerger.viewModel", "dataProviders/implementations/ContactConnector", "dataProviders/implementations/JQueryAjaxConnector"], function (require, exports, ko, ViewModelFactory, kernel, AccountListViewModel, ContactLineItemViewModel, ContactListViewModel, ContactMergerViewModel, ContactConnector, JQueryAjaxConnector) {
+define(["require", "exports", "knockout", "infrastructure/ViewModelFactory", "infrastructure/Kernel", "components/AccountList/AccountList.viewModel", "components/Contact/Contact.viewModel", "components/ContactList/ContactList.viewModel", "components/ContactMerger/ContactMerger.viewModel", "dataProviders/implementations/ContactConnector", "dataProviders/implementations/JQueryAjaxConnector"], function (require, exports, ko, ViewModelFactory, kernel, AccountListViewModel, ContactViewModel, ContactListViewModel, ContactMergerViewModel, ContactConnector, JQueryAjaxConnector) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function registerComponent(componentName, viewModel) {
@@ -19,7 +19,7 @@ define(["require", "exports", "knockout", "infrastructure/ViewModelFactory", "in
     }
     // Register all the components we're going to use
     registerComponent("AccountList", AccountListViewModel);
-    registerComponent("ContactLineItem", ContactLineItemViewModel);
+    registerComponent("Contact", ContactViewModel);
     registerComponent("ContactMerger", ContactMergerViewModel);
     registerComponent("ContactList", ContactListViewModel);
     // Bind engines and data providers and whatever else

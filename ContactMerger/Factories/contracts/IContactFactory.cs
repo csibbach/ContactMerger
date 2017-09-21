@@ -13,8 +13,8 @@ namespace ContactMerger.Factories.contracts
 
         ContactSet CreateContactSet(IList<ContactAccount> accounts);
 
-        ContactRelationship CreateContactRelationship(Contact contact);
+        ContactRelationship CreateContactRelationship(Contact contact, string accountEmail);
 
-        ContactRelationship CreateEmptyContactRelationship();
+        ContactRelationship CreateEmptyContactRelationship(string accountEmail);
     }
 }

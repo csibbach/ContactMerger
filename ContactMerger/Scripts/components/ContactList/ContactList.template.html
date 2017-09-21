@@ -1,7 +1,10 @@
 ﻿<div class="ContactList">
-    <table>
-        <tr data-bind="foreach: accountNames">
-            <td data-bind="text: $data"></td>
-        </tr>
-    </table>
+    <div class="row" data-bind="foreach: accountNames">
+        <div class="col-md-3 h5 text-center" data-bind="text: $data"></div>
+    </div>
+    <div data-bind="foreach: contactGrid">
+        <div class="row" data-bind="foreach: $data">
+            <div class="col-md-3" data-bind="component: {name:'Contact', params: $data}"></div>
+        </div>
+    </div>
 </div>

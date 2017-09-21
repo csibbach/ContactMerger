@@ -35,6 +35,15 @@ textarea {
     }
 }
 
+.error-message {
+    background-color: salmon;
+    border-color: black;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+}
+
 .AccountList {
     
 }
@@ -43,6 +52,37 @@ textarea {
     
 }
 
-.AccountListIFrame {}
+.AccountList ul {
+    list-style: none;
+}
 
-.AccountList .AccountNames {}
+.AccountList .AccountLineItem img {
+    max-width: 30px;
+    max-height: 30px;
+}
+
+.ContactList { }
+
+.Contact {
+    
+}
+
+.Contact .matching {
+    
+}
+
+.Contact .not-matching {
+    color: red;
+}
+
+.Contact.ExistingContact {
+    border-color: black;
+    border-style: solid;
+    -ms-border-radius: 2px;
+    border-radius: 2px;
+    border-width: 1px;
+}
+
+.Contact.NonexistentContact {
+    background-color: aliceblue;
+}

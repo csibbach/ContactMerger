@@ -63,7 +63,15 @@ in C#, build a front end component in Typescript, write tests, rinse repeat etc.
 for the very last. One, because I suck at design. I can make CSS to match a comp but ask me to work on 
 my own design, fat chance. Two, because the nature of building front ends this way allows me to seperate 
 the style from the function very well. The app can be completely working and tested without any CSS 
-required.
+required. 
+
+There were all sorts of little things that I skipped over that bug me. Localization is non existent,
+names are american format and not responsive, error handling is incredibly basic at best. I know
+how to fix all of these but they take extra time and thought that I just didn't feel was warranted
+for this project. For instance, localization in a spa can use server-side resource files, but you
+need to send that language to the client, and there are cool things you should do with caching to
+optimize this. I also didn't spend any time with the optimizer settings, all the JS code should
+be bundled and would make the app a bit faster.
 
 Running The App
 You need to put the provided secrets.json file at the root of the file structure, and then hit play in

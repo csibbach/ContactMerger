@@ -1,0 +1,11 @@
+﻿<div class="Contact text-center" data-bind="css: {ExistingContact: contactExists, NonexistentContact: !contactExists()}">
+    <div data-bind="if: contactExists">
+        <div data-bind="text: name, css:{matching: nameMatches, 'not-matching': !nameMatches()}"></div>
+        <div data-bind="text: email, css:{matching: emailMatches, 'not-matching': !emailMatches()}"></div>
+        <button class="btn btn-primary" data-bind="click: syncContact, visible: notOnlyColumn">Sync (with this data)</button>
+        <div class="error-message" data-bind="visible: showErrorMessage">Server could not sync data!</div>
+    </div>
+    <div class="text-center" data-bind="ifnot: contactExists">
+        No Data
+    </div>
+</div>

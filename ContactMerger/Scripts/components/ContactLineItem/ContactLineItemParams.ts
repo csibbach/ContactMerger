@@ -1,5 +1,0 @@
-﻿class ContactLineItemParams {
-
-}
-
-export = ContactLineItemParams;

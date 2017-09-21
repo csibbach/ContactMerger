@@ -78,6 +78,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship1.LastNameMatches);
             Assert.AreEqual(true, relationship1.EmailMatches);
             Assert.AreEqual(true, relationship1.ContactExists);
+            Assert.AreEqual(Account1, relationship1.AccountEmail);
         }
 
         [TestMethod]
@@ -110,6 +111,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship1.LastNameMatches);
             Assert.AreEqual(true, relationship1.EmailMatches);
             Assert.AreEqual(true, relationship1.ContactExists);
+            Assert.AreEqual(Account1, relationship1.AccountEmail);
 
             // Second contact
             var relationship2 = set.ContactGrid[Account1][1];
@@ -121,6 +123,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship2.LastNameMatches);
             Assert.AreEqual(true, relationship2.EmailMatches);
             Assert.AreEqual(true, relationship2.ContactExists);
+            Assert.AreEqual(Account1, relationship1.AccountEmail);
         }
 
         [TestMethod]
@@ -162,6 +165,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship11.LastNameMatches);
             Assert.AreEqual(true, relationship11.EmailMatches);
             Assert.AreEqual(true, relationship11.ContactExists);
+            Assert.AreEqual(Account1, relationship11.AccountEmail);
 
             // Column 1, contact 2
             var relationship12 = set.ContactGrid[Account1][1];
@@ -173,6 +177,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship12.LastNameMatches);
             Assert.AreEqual(true, relationship12.EmailMatches);
             Assert.AreEqual(false, relationship12.ContactExists);
+            Assert.AreEqual(Account1, relationship12.AccountEmail);
 
             // Column 2, contact 1
             var relationship21 = set.ContactGrid[Account2][0];
@@ -184,6 +189,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship21.LastNameMatches);
             Assert.AreEqual(true, relationship21.EmailMatches);
             Assert.AreEqual(true, relationship21.ContactExists);
+            Assert.AreEqual(Account2, relationship21.AccountEmail);
 
             // Column 2, contact 2
             var relationship22 = set.ContactGrid[Account2][1];
@@ -195,6 +201,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship22.LastNameMatches);
             Assert.AreEqual(true, relationship22.EmailMatches);
             Assert.AreEqual(true, relationship22.ContactExists);
+            Assert.AreEqual(Account2, relationship22.AccountEmail);
         }
 
         [TestMethod]
@@ -236,6 +243,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship11.LastNameMatches);
             Assert.AreEqual(true, relationship11.EmailMatches);
             Assert.AreEqual(true, relationship11.ContactExists);
+            Assert.AreEqual(Account1, relationship11.AccountEmail);
 
             // Column 1, contact 2
             var relationship12 = set.ContactGrid[Account1][1];
@@ -247,6 +255,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship12.LastNameMatches);
             Assert.AreEqual(true, relationship12.EmailMatches);
             Assert.AreEqual(false, relationship12.ContactExists);
+            Assert.AreEqual(Account1, relationship12.AccountEmail);
 
             // Column 2, contact 1
             var relationship21 = set.ContactGrid[Account2][0];
@@ -258,6 +267,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship21.LastNameMatches);
             Assert.AreEqual(true, relationship21.EmailMatches);
             Assert.AreEqual(true, relationship21.ContactExists);
+            Assert.AreEqual(Account2, relationship21.AccountEmail);
 
             // Column 2, contact 2
             var relationship22 = set.ContactGrid[Account2][1];
@@ -269,6 +279,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship22.LastNameMatches);
             Assert.AreEqual(true, relationship22.EmailMatches);
             Assert.AreEqual(true, relationship22.ContactExists);
+            Assert.AreEqual(Account2, relationship22.AccountEmail);
         }
 
         [TestMethod]
@@ -310,6 +321,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(false, relationship11.LastNameMatches);
             Assert.AreEqual(true, relationship11.EmailMatches);
             Assert.AreEqual(true, relationship11.ContactExists);
+            Assert.AreEqual(Account1, relationship11.AccountEmail);
 
             // Column 1, contact 2
             var relationship12 = set.ContactGrid[Account1][1];
@@ -321,6 +333,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship12.LastNameMatches);
             Assert.AreEqual(true, relationship12.EmailMatches);
             Assert.AreEqual(false, relationship12.ContactExists);
+            Assert.AreEqual(Account1, relationship12.AccountEmail);
 
             // Column 2, contact 1
             var relationship21 = set.ContactGrid[Account2][0];
@@ -332,6 +345,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(false, relationship21.LastNameMatches);
             Assert.AreEqual(true, relationship21.EmailMatches);
             Assert.AreEqual(true, relationship21.ContactExists);
+            Assert.AreEqual(Account2, relationship21.AccountEmail);
 
             // Column 2, contact 2
             var relationship22 = set.ContactGrid[Account2][1];
@@ -343,6 +357,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship22.LastNameMatches);
             Assert.AreEqual(true, relationship22.EmailMatches);
             Assert.AreEqual(true, relationship22.ContactExists);
+            Assert.AreEqual(Account2, relationship22.AccountEmail);
         }
 
         [TestMethod]
@@ -384,6 +399,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship11.LastNameMatches);
             Assert.AreEqual(false, relationship11.EmailMatches);
             Assert.AreEqual(true, relationship11.ContactExists);
+            Assert.AreEqual(Account1, relationship11.AccountEmail);
 
             // Column 1, contact 2
             var relationship12 = set.ContactGrid[Account1][1];
@@ -395,6 +411,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship12.LastNameMatches);
             Assert.AreEqual(true, relationship12.EmailMatches);
             Assert.AreEqual(false, relationship12.ContactExists);
+            Assert.AreEqual(Account1, relationship12.AccountEmail);
 
             // Column 2, contact 1
             var relationship21 = set.ContactGrid[Account2][0];
@@ -406,6 +423,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship21.LastNameMatches);
             Assert.AreEqual(false, relationship21.EmailMatches);
             Assert.AreEqual(true, relationship21.ContactExists);
+            Assert.AreEqual(Account2, relationship21.AccountEmail);
 
             // Column 2, contact 2
             var relationship22 = set.ContactGrid[Account2][1];
@@ -417,6 +435,7 @@ namespace ContactMerger.Tests.Engines.implementations
             Assert.AreEqual(true, relationship22.LastNameMatches);
             Assert.AreEqual(true, relationship22.EmailMatches);
             Assert.AreEqual(true, relationship22.ContactExists);
+            Assert.AreEqual(Account2, relationship22.AccountEmail);
         }
 
         [TestMethod]

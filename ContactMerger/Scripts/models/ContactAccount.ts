@@ -1,8 +1,8 @@
 ﻿import EAccountType = require("enum/EAccountType");
 
-class Account {
+class ContactAccount {
     public accountEmail: string;
-    public accountType: EAccountType;
+    public contactAccountType: EAccountType;
 }
 
-export = Account;
+export = ContactAccount;

@@ -1,10 +1,10 @@
-define(["require", "exports", "components/AccountList/AccountList.viewModel", "tests/mocks/dataProviders/ContactAccountConnectorMock", "components/AccountList/AccountListParams"], function (require, exports, AccountList, ContactAccountConnectorMock, AccountListParams) {
+define(["require", "exports", "components/AccountList/AccountList.viewModel", "tests/mocks/dataProviders/ContactConnectorMock", "components/AccountList/AccountListParams"], function (require, exports, AccountList, ContactConnectorMock, AccountListParams) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     QUnit.module("AccountList");
-    test("will return correct version from core", function (assert) {
+    QUnit.test("Basic Setup Test", function (assert) {
         // Arrange
-        var connector = new ContactAccountConnectorMock(assert);
+        var connector = new ContactConnectorMock(assert);
         var accountList = new AccountList(connector);
         var params = new AccountListParams();
         // Act

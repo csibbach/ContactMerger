@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using ContactMerger.DataProviders.contracts;
 using ContactMerger.Factories.contracts;
+using ContactMerger.Utility;
 using Google.Apis.Auth.OAuth2.Mvc;
 using Microsoft.AspNet.Identity;
 
@@ -64,7 +65,7 @@ namespace ContactMerger.Controllers
         {
             var credentials = await _googleCredentialProvider.GetCredentials(User.Identity.GetUserName());
 
-            return Json(credentials.Keys.ToArray(), JsonRequestBehavior.AllowGet);
+            return new JsonCamelCaseResult(credentials.Keys.ToArray(), JsonRequestBehavior.AllowGet);
         }
     }
 }

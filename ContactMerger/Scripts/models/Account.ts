@@ -1,8 +1,8 @@
 ﻿import EAccountType = require("enum/EAccountType");
 
 class Account {
-    loginName: string;
-    accountType: EAccountType;
+    public accountEmail: string;
+    public accountType: EAccountType;
 }
 
 export = Account;

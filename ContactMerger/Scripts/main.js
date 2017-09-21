@@ -1,4 +1,4 @@
-define(["require", "exports", "knockout", "infrastructure/ViewModelFactory", "infrastructure/Kernel", "components/AccountList/AccountList.viewModel", "components/ContactLineItem/ContactLineItem.viewModel", "components/ContactMerger/ContactMerger.viewModel", "dataProviders/implementations/ContactAccountConnector"], function (require, exports, ko, ViewModelFactory, kernel, AccountListViewModel, ContactLineItemViewModel, ContactMergerViewModel, ContactAccountConnector) {
+define(["require", "exports", "knockout", "infrastructure/ViewModelFactory", "infrastructure/Kernel", "components/AccountList/AccountList.viewModel", "components/ContactLineItem/ContactLineItem.viewModel", "components/ContactList/ContactList.viewModel", "components/ContactMerger/ContactMerger.viewModel", "dataProviders/implementations/ContactConnector", "dataProviders/implementations/JQueryAjaxConnector"], function (require, exports, ko, ViewModelFactory, kernel, AccountListViewModel, ContactLineItemViewModel, ContactListViewModel, ContactMergerViewModel, ContactConnector, JQueryAjaxConnector) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function registerComponent(componentName, viewModel) {
@@ -21,8 +21,10 @@ define(["require", "exports", "knockout", "infrastructure/ViewModelFactory", "in
     registerComponent("AccountList", AccountListViewModel);
     registerComponent("ContactLineItem", ContactLineItemViewModel);
     registerComponent("ContactMerger", ContactMergerViewModel);
+    registerComponent("ContactList", ContactListViewModel);
     // Bind engines and data providers and whatever else
-    kernel.mapClass("IContactAccountConnector", ContactAccountConnector);
+    kernel.mapClass("IAjaxConnector", JQueryAjaxConnector);
+    kernel.mapClass("IContactConnector", ContactConnector);
     // Kick off knockout to do its thang...
     ko.applyBindings();
 });

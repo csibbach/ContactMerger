@@ -48,16 +48,28 @@ namespace ContactMerger.DataProviders.implementations
 
             PeopleResource.ConnectionsResource.ListRequest peopleRequest =
                 peopleService.People.Connections.List("people/me");
-            //peopleRequest.PersonFields = "names,emailAddresses";
+            peopleRequest.RequestMaskIncludeField = "person.names,person.emailAddresses";
             var connectionsResponse = await peopleRequest.ExecuteAsync();
             IList<Person> connections = connectionsResponse.Connections;
 
             // Map all the persons into Contacts
             foreach (var connection in connections)
             {
-                returnList.Contacts.Add(_contactFactory.CreateContact(connection.Names[0].GivenName,
-                    connection.Names[0].FamilyName,
-                    connection.EmailAddresses[0].Value
+                // Google contacts may not have any of the critical info we need, and any of the fields
+                // may be null, so we need to protect against that
+                // Honestly I'm not 100% sold on this code here. I know there is a better way
+                // to do all these null checks but it's late and I can't figure it out right now.
+                var firstName = connection.Names != null && connection.Names.Count > 0 ? connection.Names[0].GivenName : "";
+                var lastName = connection.Names != null && connection.Names.Count > 0 ? connection.Names[0].FamilyName : "";
+                var emailAddress = connection.EmailAddresses != null && connection.EmailAddresses.Count > 0 ? connection.EmailAddresses[0].Value : "";  
+
+                // firstName and lastName may still be null if the contact only has one or the other.
+                firstName = firstName ?? "";
+                lastName = lastName ?? "";
+                emailAddress = emailAddress ?? ""; // Just for good measure.
+
+                returnList.Contacts.Add(_contactFactory.CreateContact(firstName,
+                    lastName, emailAddress
                 ));
             }
 

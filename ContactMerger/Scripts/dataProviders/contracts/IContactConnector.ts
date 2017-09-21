@@ -1,9 +1,8 @@
-﻿import ContactList = require("models/Contact");
-import Account = require("models/Account");
+﻿import ContactSet = require("models/ContactSet");
 
 interface IContactConnector {
-    getContacts(account: Account): ContactList;
-
+    getContactAccounts(): Promise<string[]>;
+    getContacts(): Promise<ContactSet>;
 };
 
 export = IContactConnector;

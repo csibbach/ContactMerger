@@ -318,6 +318,7 @@
     <Compile Include="Utility\AppFlowMetadata.cs" />
     <Compile Include="Factories\implementations\FlowMetadataFactory.cs" />
     <Compile Include="Factories\contracts\IFlowMetadataFactory.cs" />
+    <Compile Include="Utility\JsonCamelCaseResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -331,6 +332,7 @@
     <Content Include="README.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\components\ContactList\ContactList.template.html" />
     <Content Include="Scripts\components\ContactMerger\ContactMerger.template.html" />
     <Content Include="Scripts\components\ContactLineItem\ContactLineItem.template.html" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -343,6 +345,9 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Scripts\chutzpah.json" />
     <None Include="Scripts\library\jquery\jquery-3.2.1.intellisense.js" />
+    <TypeScriptCompile Include="Scripts\components\ContactList\ContactList.viewModel.ts" />
+    <TypeScriptCompile Include="Scripts\components\ContactList\ContactListParams.ts" />
+    <TypeScriptCompile Include="Scripts\dataProviders\contracts\IAjaxConnector.ts" />
     <Content Include="Scripts\library\jquery\jquery-3.2.1.js" />
     <Content Include="Scripts\library\jquery\jquery-3.2.1.min.js" />
     <Content Include="Scripts\library\jquery\jquery-3.2.1.slim.js" />
@@ -410,7 +415,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\" />
-    <Folder Include="Scripts\components\ContactList\" />
     <Folder Include="Scripts\engines\implementations\" />
   </ItemGroup>
   <ItemGroup>
@@ -424,9 +428,9 @@
     <TypeScriptCompile Include="Scripts\components\ContactLineItem\ContactLineItemParams.ts" />
     <TypeScriptCompile Include="Scripts\components\ContactLineItem\ContactLineItem.viewModel.ts" />
     <TypeScriptCompile Include="Scripts\config.ts" />
-    <TypeScriptCompile Include="Scripts\dataProviders\contracts\IContactAccountConnector.ts" />
     <TypeScriptCompile Include="Scripts\dataProviders\contracts\IContactConnector.ts" />
-    <TypeScriptCompile Include="Scripts\dataProviders\implementations\ContactAccountConnector.ts" />
+    <TypeScriptCompile Include="Scripts\dataProviders\implementations\ContactConnector.ts" />
+    <TypeScriptCompile Include="Scripts\dataProviders\implementations\JQueryAjaxConnector.ts" />
     <TypeScriptCompile Include="Scripts\engines\contracts\IMatchingEngine.ts" />
     <TypeScriptCompile Include="Scripts\enum\EAccountType.ts" />
     <TypeScriptCompile Include="Scripts\infrastructure\IViewModel.ts" />
@@ -443,14 +447,17 @@
     <TypeScriptCompile Include="Scripts\main.ts" />
     <TypeScriptCompile Include="Scripts\models\Account.ts" />
     <TypeScriptCompile Include="Scripts\models\Contact.ts" />
-    <TypeScriptCompile Include="Scripts\models\ContactList.ts" />
+    <TypeScriptCompile Include="Scripts\models\ContactRelationship.ts" />
+    <TypeScriptCompile Include="Scripts\models\ContactSet.ts" />
     <TypeScriptCompile Include="Scripts\tests\components\AccountList.test.ts" />
-    <TypeScriptCompile Include="Scripts\tests\mocks\dataProviders\ContactAccountConnectorMock.ts" />
+    <TypeScriptCompile Include="Scripts\tests\mocks\dataProviders\AjaxConnectorMock.ts" />
+    <TypeScriptCompile Include="Scripts\tests\mocks\dataProviders\ContactConnectorMock.ts" />
     <TypeScriptCompile Include="Scripts\tests\utility\PromiseControls.ts" />
     <TypeScriptCompile Include="Scripts\tests\utility\PromiseUtils.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

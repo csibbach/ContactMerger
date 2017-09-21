@@ -1,3 +1,5 @@
 ﻿<div class="ContactMerger">
     <div data-bind="component:{name: 'AccountList', params: accountList}"></div>
+    <a data-bind="click: fetchContacts">Fetch Contacts</a>
+    <div data-bind="component:{name: 'ContactList', params: contactList}"></div>
 </div>

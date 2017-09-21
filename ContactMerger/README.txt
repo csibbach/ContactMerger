@@ -50,13 +50,20 @@ for security- making sure things are authenticated up front at least- but genera
 have it's own authentication. For instance, things like ContactProvider would authenticate requests
 for data by itself; right now it returns whatever data it has for that username. The username is 
 coming from the authentication layer so I think it's OK, but I would have liked to go crazy on this
-and it just wasn't worth it.
+and it just wasn't worth it. I also started by making API-only controllers ApiControllers, but in 
+order to authenticate to them, I need to either bubble up the security token used by the main
+login, or re-auth on the client side and get a new token, both of which would be significant work.
+In the end I opted to just use pass-through auth, but my endpoints are thus only useable within
+my own app. I also opted to skip a purely RESTful API design, instead opting for endpoints that
+do things my app needs. This gave me a reason to put more work on the C# side rather than the 
+frontend, hopefully it's enough.
 
-Once I had everything bootstrapped, it was a simple matter of addition. Add in API calls in C#,
-build a front end component in Typescript, write tests, etc. I saved the styling for the very last.
-One, because I suck at design. I can make CSS to match a comp but ask me to work on my own design,
-fat chance. Two, because the nature of building front ends this way allows me to seperate the style
-from the function very well. The app can be completely working and tested without any CSS required.
+Once I had everything bootstrapped, it was a simple matter of TDD based addition. Add in API calls 
+in C#, build a front end component in Typescript, write tests, rinse repeat etc. I saved the styling 
+for the very last. One, because I suck at design. I can make CSS to match a comp but ask me to work on 
+my own design, fat chance. Two, because the nature of building front ends this way allows me to seperate 
+the style from the function very well. The app can be completely working and tested without any CSS 
+required.
 
 Running The App
 You need to put the provided secrets.json file at the root of the file structure, and then hit play in

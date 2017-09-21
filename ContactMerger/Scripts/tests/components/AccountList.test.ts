@@ -1,12 +1,12 @@
 ﻿import AccountList = require("components/AccountList/AccountList.viewModel");
-import ContactAccountConnectorMock = require("tests/mocks/dataProviders/ContactAccountConnectorMock");
+import ContactConnectorMock = require("tests/mocks/dataProviders/ContactConnectorMock");
 import AccountListParams = require("components/AccountList/AccountListParams");
 
 QUnit.module("AccountList");
 
-test("will return correct version from core", (assert: QUnitAssert) =>{
+QUnit.test("Basic Setup Test", (assert: QUnitAssert) =>{
     // Arrange
-    var connector = new ContactAccountConnectorMock(assert);
+    var connector = new ContactConnectorMock(assert);
     var accountList = new AccountList(connector);
 
     var params = new AccountListParams();

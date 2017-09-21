@@ -1,14 +1,16 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
+using System.Web.Mvc;
 using ContactMerger.DataProviders.contracts;
 using ContactMerger.Engines.contracts;
-using ContactMerger.Models;
+using ContactMerger.Utility;
 using Microsoft.AspNet.Identity;
 
 namespace ContactMerger.Controllers
 {
-    public class ContactController : ApiController
+
+    [Authorize]
+    public class ContactController : Controller
     {
         private readonly IContactProvider _contactProvider;
         private readonly IGoogleCredentialProvider _googleCredentialProvider;
@@ -23,8 +25,7 @@ namespace ContactMerger.Controllers
             _contactMatchingEngine = contactMatchingEngine;
         }
 
-        [Authorize]
-        public async Task<ContactSet> Get()
+        public async Task<ActionResult> GetContactSet()
         {
             // Get all the registered account credentials
             var credentials = await _googleCredentialProvider.GetCredentials(User.Identity.GetUserName());
@@ -37,30 +38,10 @@ namespace ContactMerger.Controllers
                 _contactProvider.GetContacts(User.Identity.Name, email)));
             
             // Got a list of contact results! Now I send them through the merging engine.
-            return await _contactMatchingEngine.MergeContactLists(results.ToList());
-        }
+            var contactSet = await _contactMatchingEngine.MergeContactLists(results.ToList());
 
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
+            // Convert to JSON and on our way
+            return new JsonCamelCaseResult(contactSet, JsonRequestBehavior.AllowGet);
         }
-
-        // POST api/<controller>
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
-
-        
     }
 }

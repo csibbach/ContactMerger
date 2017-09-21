@@ -2,9 +2,11 @@
 
 namespace ContactMerger.Models
 {
-    public class ContactRelationship
+    public class ContactRelationship: Contact
     {
-        public Contact Contact;
-        public IList<string> ContactAccountMap;
+        public bool FirstNameMatches;
+        public bool LastNameMatches;
+        public bool EmailMatches;
+        public bool ContactExists;
     }
 }

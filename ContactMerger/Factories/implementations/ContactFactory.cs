@@ -38,19 +38,45 @@ namespace ContactMerger.Factories.implementations
 
         public ContactSet CreateContactSet(IList<ContactAccount> accounts)
         {
-            return new ContactSet
+            var set = new ContactSet
             {
-                Accounts = accounts,
-                Relationships = new List<ContactRelationship>()
+                ContactGrid = new Dictionary<string, IList<ContactRelationship>>()
             };
+
+            // Create a column in the grid for each account
+            foreach (var account in accounts)
+            {
+                set.ContactGrid.Add(account.AccountEmail, new List<ContactRelationship>());
+            }
+
+            return set;
         }
 
-        public ContactRelationship CreateContactRelationship(Contact contact, string accountEmail)
+        public ContactRelationship CreateContactRelationship(Contact contact)
         {
             return new ContactRelationship
             {
-                Contact = contact,
-                ContactAccountMap = new List<string> { accountEmail}
+                FirstName = contact.FirstName,
+                LastName = contact.LastName,
+                Email =  contact.Email,
+                FirstNameMatches = true,
+                LastNameMatches = true,
+                EmailMatches = true,
+                ContactExists = true
+            };
+        }
+
+        public ContactRelationship CreateEmptyContactRelationship()
+        {
+            return new ContactRelationship
+            {
+                FirstName = "",
+                LastName = "",
+                Email = "",
+                FirstNameMatches = true,
+                LastNameMatches = true,
+                EmailMatches = true,
+                ContactExists = false
             };
         }
     }

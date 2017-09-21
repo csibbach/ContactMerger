@@ -21,6 +21,9 @@ namespace ContactMerger.Tests.Engines.implementations
         // implementation is fully tested anyway.
         private readonly ContactFactory _contactFactory = new ContactFactory();
 
+        private const string Account1 = "Account1@test.com";
+        private const string Account2 = "Account2@test.com";
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public async Task MergeContactListsNullParamsTest()
@@ -45,15 +48,14 @@ namespace ContactMerger.Tests.Engines.implementations
 
             // Assert
             Assert.IsNotNull(set);
-            Assert.AreEqual(0, set.Accounts.Count);
-            Assert.AreEqual(0, set.Relationships.Count);
+            Assert.AreEqual(0, set.ContactGrid.Count);
         }
 
         [TestMethod]
         public async Task MergeContactListsSingleListTest()
         {
             // Arrange
-            var list = _contactFactory.CreateContactList("Account1@test.com", EContactAccountType.Google);
+            var list = _contactFactory.CreateContactList(Account1, EContactAccountType.Google);
             var contact = _contactFactory.CreateContact("foo", "bar", "baz");
             list.Contacts.Add(contact);
             var engine = new ContactMatchingEngine(_contactFactory);
@@ -63,20 +65,26 @@ namespace ContactMerger.Tests.Engines.implementations
 
             // Assert
             Assert.IsNotNull(set);
-            Assert.AreEqual(1, set.Accounts.Count);
-            Assert.AreEqual("Account1@test.com", set.Accounts[0].AccountEmail);
-            Assert.AreEqual(EContactAccountType.Google, set.Accounts[0].ContactAccountType);
-            Assert.AreEqual(1, set.Relationships.Count);
-            Assert.AreEqual(1, set.Relationships[0].ContactAccountMap.Count);
-            Assert.AreEqual(contact, set.Relationships[0].Contact);
-            Assert.AreEqual("Account1@test.com", set.Relationships[0].ContactAccountMap[0]);
+            Assert.AreEqual(1, set.ContactGrid.Count);
+            Assert.IsTrue(set.ContactGrid.ContainsKey(Account1));
+            Assert.AreEqual(1, set.ContactGrid[Account1].Count);
+
+            var relationship1 = set.ContactGrid[Account1][0];
+            Assert.AreEqual("foo", relationship1.FirstName);
+            Assert.AreEqual("bar", relationship1.LastName);
+            Assert.AreEqual("baz", relationship1.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship1.FirstNameMatches);
+            Assert.AreEqual(true, relationship1.LastNameMatches);
+            Assert.AreEqual(true, relationship1.EmailMatches);
+            Assert.AreEqual(true, relationship1.ContactExists);
         }
 
         [TestMethod]
         public async Task MergeContactListsSingleListMultipleContactTest()
         {
             // Arrange
-            var list = _contactFactory.CreateContactList("Account1@test.com", EContactAccountType.Google);
+            var list = _contactFactory.CreateContactList(Account1, EContactAccountType.Google);
             var contact1 = _contactFactory.CreateContact("foo", "bar", "baz");
             var contact2 = _contactFactory.CreateContact("zort", "meep", "yarg");
             list.Contacts.Add(contact1);
@@ -88,29 +96,43 @@ namespace ContactMerger.Tests.Engines.implementations
 
             // Assert
             Assert.IsNotNull(set);
-            Assert.AreEqual(1, set.Accounts.Count);
-            Assert.AreEqual("Account1@test.com", set.Accounts[0].AccountEmail);
-            Assert.AreEqual(EContactAccountType.Google, set.Accounts[0].ContactAccountType);
-            
-            Assert.AreEqual(2, set.Relationships.Count);
-            Assert.AreEqual(1, set.Relationships[0].ContactAccountMap.Count);
-            Assert.AreEqual(1, set.Relationships[1].ContactAccountMap.Count);
-            Assert.AreEqual(contact1, set.Relationships[0].Contact);
-            Assert.AreEqual(contact2, set.Relationships[1].Contact);
-            Assert.AreEqual("Account1@test.com", set.Relationships[0].ContactAccountMap[0]);
-            Assert.AreEqual("Account1@test.com", set.Relationships[1].ContactAccountMap[0]);
+            Assert.AreEqual(1, set.ContactGrid.Count);
+            Assert.IsTrue(set.ContactGrid.ContainsKey(Account1));
+            Assert.AreEqual(2, set.ContactGrid[Account1].Count);
+
+            // First contact
+            var relationship1 = set.ContactGrid[Account1][0];
+            Assert.AreEqual("foo", relationship1.FirstName);
+            Assert.AreEqual("bar", relationship1.LastName);
+            Assert.AreEqual("baz", relationship1.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship1.FirstNameMatches);
+            Assert.AreEqual(true, relationship1.LastNameMatches);
+            Assert.AreEqual(true, relationship1.EmailMatches);
+            Assert.AreEqual(true, relationship1.ContactExists);
+
+            // Second contact
+            var relationship2 = set.ContactGrid[Account1][1];
+            Assert.AreEqual("zort", relationship2.FirstName);
+            Assert.AreEqual("meep", relationship2.LastName);
+            Assert.AreEqual("yarg", relationship2.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship2.FirstNameMatches);
+            Assert.AreEqual(true, relationship2.LastNameMatches);
+            Assert.AreEqual(true, relationship2.EmailMatches);
+            Assert.AreEqual(true, relationship2.ContactExists);
         }
 
         [TestMethod]
-        public async Task MergeContactListsMultipleListTest()
+        public async Task MergeContactListsMultipleListFullMatchesTest()
         {
             // Arrange
-            var list1 = _contactFactory.CreateContactList("Account1@test.com", EContactAccountType.Google);
-            var list2 = _contactFactory.CreateContactList("Account2@test.com", EContactAccountType.Facebook);
+            var list1 = _contactFactory.CreateContactList(Account1, EContactAccountType.Google);
+            var list2 = _contactFactory.CreateContactList(Account2, EContactAccountType.Facebook);
 
             var contact1 = _contactFactory.CreateContact("foo", "bar", "baz");
             var contact2 = _contactFactory.CreateContact("zort", "meep", "yarg");
-            var contact3 = _contactFactory.CreateContact("Foo", "  bar", "baz ");
+            var contact3 = _contactFactory.CreateContact("foo", "bar", "baz");
 
             list1.Contacts.Add(contact1);
             list2.Contacts.Add(contact2);
@@ -122,25 +144,279 @@ namespace ContactMerger.Tests.Engines.implementations
             var set = await engine.MergeContactLists(new List<ContactList> { list1, list2 });
 
             // Assert
-            // Account Asserts
+            // Account Asserts, 2 columns with 2 rows
             Assert.IsNotNull(set);
-            Assert.AreEqual(2, set.Accounts.Count);
-            Assert.AreEqual("Account1@test.com", set.Accounts[0].AccountEmail);
-            Assert.AreEqual(EContactAccountType.Google, set.Accounts[0].ContactAccountType);
-            Assert.AreEqual("Account2@test.com", set.Accounts[1].AccountEmail);
-            Assert.AreEqual(EContactAccountType.Facebook, set.Accounts[1].ContactAccountType);
-            Assert.AreEqual(2, set.Relationships.Count);
+            Assert.AreEqual(2, set.ContactGrid.Count);
+            Assert.IsTrue(set.ContactGrid.ContainsKey(Account1));
+            Assert.IsTrue(set.ContactGrid.ContainsKey(Account2));
+            Assert.AreEqual(2, set.ContactGrid[Account1].Count);
+            Assert.AreEqual(2, set.ContactGrid[Account2].Count);
 
-            // First relationship should be foo
-            Assert.AreEqual(2, set.Relationships[0].ContactAccountMap.Count);
-            Assert.AreEqual(contact1, set.Relationships[0].Contact);
-            Assert.AreEqual("Account1@test.com", set.Relationships[0].ContactAccountMap[0]);
-            Assert.AreEqual("Account2@test.com", set.Relationships[0].ContactAccountMap[1]);
+            // Column 1, contact 1
+            var relationship11 = set.ContactGrid[Account1][0];
+            Assert.AreEqual("foo", relationship11.FirstName);
+            Assert.AreEqual("bar", relationship11.LastName);
+            Assert.AreEqual("baz", relationship11.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship11.FirstNameMatches);
+            Assert.AreEqual(true, relationship11.LastNameMatches);
+            Assert.AreEqual(true, relationship11.EmailMatches);
+            Assert.AreEqual(true, relationship11.ContactExists);
 
-            // First relationship should be yarg
-            Assert.AreEqual(1, set.Relationships[1].ContactAccountMap.Count);
-            Assert.AreEqual(contact2, set.Relationships[1].Contact);
-            Assert.AreEqual("Account2@test.com", set.Relationships[1].ContactAccountMap[0]);
+            // Column 1, contact 2
+            var relationship12 = set.ContactGrid[Account1][1];
+            Assert.AreEqual("", relationship12.FirstName);
+            Assert.AreEqual("", relationship12.LastName);
+            Assert.AreEqual("", relationship12.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship12.FirstNameMatches);
+            Assert.AreEqual(true, relationship12.LastNameMatches);
+            Assert.AreEqual(true, relationship12.EmailMatches);
+            Assert.AreEqual(false, relationship12.ContactExists);
+
+            // Column 2, contact 1
+            var relationship21 = set.ContactGrid[Account2][0];
+            Assert.AreEqual("foo", relationship21.FirstName);
+            Assert.AreEqual("bar", relationship21.LastName);
+            Assert.AreEqual("baz", relationship21.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship21.FirstNameMatches);
+            Assert.AreEqual(true, relationship21.LastNameMatches);
+            Assert.AreEqual(true, relationship21.EmailMatches);
+            Assert.AreEqual(true, relationship21.ContactExists);
+
+            // Column 2, contact 2
+            var relationship22 = set.ContactGrid[Account2][1];
+            Assert.AreEqual("zort", relationship22.FirstName);
+            Assert.AreEqual("meep", relationship22.LastName);
+            Assert.AreEqual("yarg", relationship22.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship22.FirstNameMatches);
+            Assert.AreEqual(true, relationship22.LastNameMatches);
+            Assert.AreEqual(true, relationship22.EmailMatches);
+            Assert.AreEqual(true, relationship22.ContactExists);
+        }
+
+        [TestMethod]
+        public async Task MergeContactListsMultipleListFirstNameMismatchTest()
+        {
+            // Arrange
+            var list1 = _contactFactory.CreateContactList(Account1, EContactAccountType.Google);
+            var list2 = _contactFactory.CreateContactList(Account2, EContactAccountType.Facebook);
+
+            var contact1 = _contactFactory.CreateContact("foo", "bar", "baz");
+            var contact2 = _contactFactory.CreateContact("zort", "meep", "yarg");
+            var contact3 = _contactFactory.CreateContact("blam", "bar", "baz");
+
+            list1.Contacts.Add(contact1);
+            list2.Contacts.Add(contact2);
+            list2.Contacts.Add(contact3);
+
+            var engine = new ContactMatchingEngine(_contactFactory);
+
+            // Act
+            var set = await engine.MergeContactLists(new List<ContactList> { list1, list2 });
+
+            // Assert
+            // Account Asserts, 2 columns with 2 rows
+            Assert.IsNotNull(set);
+            Assert.AreEqual(2, set.ContactGrid.Count);
+            Assert.IsTrue(set.ContactGrid.ContainsKey(Account1));
+            Assert.IsTrue(set.ContactGrid.ContainsKey(Account2));
+            Assert.AreEqual(2, set.ContactGrid[Account1].Count);
+            Assert.AreEqual(2, set.ContactGrid[Account2].Count);
+
+            // Column 1, contact 1
+            var relationship11 = set.ContactGrid[Account1][0];
+            Assert.AreEqual("foo", relationship11.FirstName);
+            Assert.AreEqual("bar", relationship11.LastName);
+            Assert.AreEqual("baz", relationship11.Email);
+            // Status bits
+            Assert.AreEqual(false, relationship11.FirstNameMatches);
+            Assert.AreEqual(true, relationship11.LastNameMatches);
+            Assert.AreEqual(true, relationship11.EmailMatches);
+            Assert.AreEqual(true, relationship11.ContactExists);
+
+            // Column 1, contact 2
+            var relationship12 = set.ContactGrid[Account1][1];
+            Assert.AreEqual("", relationship12.FirstName);
+            Assert.AreEqual("", relationship12.LastName);
+            Assert.AreEqual("", relationship12.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship12.FirstNameMatches);
+            Assert.AreEqual(true, relationship12.LastNameMatches);
+            Assert.AreEqual(true, relationship12.EmailMatches);
+            Assert.AreEqual(false, relationship12.ContactExists);
+
+            // Column 2, contact 1
+            var relationship21 = set.ContactGrid[Account2][0];
+            Assert.AreEqual("blam", relationship21.FirstName);
+            Assert.AreEqual("bar", relationship21.LastName);
+            Assert.AreEqual("baz", relationship21.Email);
+            // Status bits
+            Assert.AreEqual(false, relationship21.FirstNameMatches);
+            Assert.AreEqual(true, relationship21.LastNameMatches);
+            Assert.AreEqual(true, relationship21.EmailMatches);
+            Assert.AreEqual(true, relationship21.ContactExists);
+
+            // Column 2, contact 2
+            var relationship22 = set.ContactGrid[Account2][1];
+            Assert.AreEqual("zort", relationship22.FirstName);
+            Assert.AreEqual("meep", relationship22.LastName);
+            Assert.AreEqual("yarg", relationship22.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship22.FirstNameMatches);
+            Assert.AreEqual(true, relationship22.LastNameMatches);
+            Assert.AreEqual(true, relationship22.EmailMatches);
+            Assert.AreEqual(true, relationship22.ContactExists);
+        }
+
+        [TestMethod]
+        public async Task MergeContactListsMultipleListLastNameMismatchTest()
+        {
+            // Arrange
+            var list1 = _contactFactory.CreateContactList(Account1, EContactAccountType.Google);
+            var list2 = _contactFactory.CreateContactList(Account2, EContactAccountType.Facebook);
+
+            var contact1 = _contactFactory.CreateContact("foo", "bar", "baz");
+            var contact2 = _contactFactory.CreateContact("zort", "meep", "yarg");
+            var contact3 = _contactFactory.CreateContact("foo", "blam", "baz");
+
+            list1.Contacts.Add(contact1);
+            list2.Contacts.Add(contact2);
+            list2.Contacts.Add(contact3);
+
+            var engine = new ContactMatchingEngine(_contactFactory);
+
+            // Act
+            var set = await engine.MergeContactLists(new List<ContactList> { list1, list2 });
+
+            // Assert
+            // Account Asserts, 2 columns with 2 rows
+            Assert.IsNotNull(set);
+            Assert.AreEqual(2, set.ContactGrid.Count);
+            Assert.IsTrue(set.ContactGrid.ContainsKey(Account1));
+            Assert.IsTrue(set.ContactGrid.ContainsKey(Account2));
+            Assert.AreEqual(2, set.ContactGrid[Account1].Count);
+            Assert.AreEqual(2, set.ContactGrid[Account2].Count);
+
+            // Column 1, contact 1
+            var relationship11 = set.ContactGrid[Account1][0];
+            Assert.AreEqual("foo", relationship11.FirstName);
+            Assert.AreEqual("bar", relationship11.LastName);
+            Assert.AreEqual("baz", relationship11.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship11.FirstNameMatches);
+            Assert.AreEqual(false, relationship11.LastNameMatches);
+            Assert.AreEqual(true, relationship11.EmailMatches);
+            Assert.AreEqual(true, relationship11.ContactExists);
+
+            // Column 1, contact 2
+            var relationship12 = set.ContactGrid[Account1][1];
+            Assert.AreEqual("", relationship12.FirstName);
+            Assert.AreEqual("", relationship12.LastName);
+            Assert.AreEqual("", relationship12.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship12.FirstNameMatches);
+            Assert.AreEqual(true, relationship12.LastNameMatches);
+            Assert.AreEqual(true, relationship12.EmailMatches);
+            Assert.AreEqual(false, relationship12.ContactExists);
+
+            // Column 2, contact 1
+            var relationship21 = set.ContactGrid[Account2][0];
+            Assert.AreEqual("foo", relationship21.FirstName);
+            Assert.AreEqual("blam", relationship21.LastName);
+            Assert.AreEqual("baz", relationship21.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship21.FirstNameMatches);
+            Assert.AreEqual(false, relationship21.LastNameMatches);
+            Assert.AreEqual(true, relationship21.EmailMatches);
+            Assert.AreEqual(true, relationship21.ContactExists);
+
+            // Column 2, contact 2
+            var relationship22 = set.ContactGrid[Account2][1];
+            Assert.AreEqual("zort", relationship22.FirstName);
+            Assert.AreEqual("meep", relationship22.LastName);
+            Assert.AreEqual("yarg", relationship22.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship22.FirstNameMatches);
+            Assert.AreEqual(true, relationship22.LastNameMatches);
+            Assert.AreEqual(true, relationship22.EmailMatches);
+            Assert.AreEqual(true, relationship22.ContactExists);
+        }
+
+        [TestMethod]
+        public async Task MergeContactListsMultipleListEmailMismatchTest()
+        {
+            // Arrange
+            var list1 = _contactFactory.CreateContactList(Account1, EContactAccountType.Google);
+            var list2 = _contactFactory.CreateContactList(Account2, EContactAccountType.Facebook);
+
+            var contact1 = _contactFactory.CreateContact("foo", "bar", "baz");
+            var contact2 = _contactFactory.CreateContact("zort", "meep", "yarg");
+            var contact3 = _contactFactory.CreateContact("foo", "bar", "blam");
+
+            list1.Contacts.Add(contact1);
+            list2.Contacts.Add(contact2);
+            list2.Contacts.Add(contact3);
+
+            var engine = new ContactMatchingEngine(_contactFactory);
+
+            // Act
+            var set = await engine.MergeContactLists(new List<ContactList> { list1, list2 });
+
+            // Assert
+            // Account Asserts, 2 columns with 2 rows
+            Assert.IsNotNull(set);
+            Assert.AreEqual(2, set.ContactGrid.Count);
+            Assert.IsTrue(set.ContactGrid.ContainsKey(Account1));
+            Assert.IsTrue(set.ContactGrid.ContainsKey(Account2));
+            Assert.AreEqual(2, set.ContactGrid[Account1].Count);
+            Assert.AreEqual(2, set.ContactGrid[Account2].Count);
+
+            // Column 1, contact 1
+            var relationship11 = set.ContactGrid[Account1][0];
+            Assert.AreEqual("foo", relationship11.FirstName);
+            Assert.AreEqual("bar", relationship11.LastName);
+            Assert.AreEqual("baz", relationship11.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship11.FirstNameMatches);
+            Assert.AreEqual(true, relationship11.LastNameMatches);
+            Assert.AreEqual(false, relationship11.EmailMatches);
+            Assert.AreEqual(true, relationship11.ContactExists);
+
+            // Column 1, contact 2
+            var relationship12 = set.ContactGrid[Account1][1];
+            Assert.AreEqual("", relationship12.FirstName);
+            Assert.AreEqual("", relationship12.LastName);
+            Assert.AreEqual("", relationship12.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship12.FirstNameMatches);
+            Assert.AreEqual(true, relationship12.LastNameMatches);
+            Assert.AreEqual(true, relationship12.EmailMatches);
+            Assert.AreEqual(false, relationship12.ContactExists);
+
+            // Column 2, contact 1
+            var relationship21 = set.ContactGrid[Account2][0];
+            Assert.AreEqual("foo", relationship21.FirstName);
+            Assert.AreEqual("bar", relationship21.LastName);
+            Assert.AreEqual("blam", relationship21.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship21.FirstNameMatches);
+            Assert.AreEqual(true, relationship21.LastNameMatches);
+            Assert.AreEqual(false, relationship21.EmailMatches);
+            Assert.AreEqual(true, relationship21.ContactExists);
+
+            // Column 2, contact 2
+            var relationship22 = set.ContactGrid[Account2][1];
+            Assert.AreEqual("zort", relationship22.FirstName);
+            Assert.AreEqual("meep", relationship22.LastName);
+            Assert.AreEqual("yarg", relationship22.Email);
+            // Status bits
+            Assert.AreEqual(true, relationship22.FirstNameMatches);
+            Assert.AreEqual(true, relationship22.LastNameMatches);
+            Assert.AreEqual(true, relationship22.EmailMatches);
+            Assert.AreEqual(true, relationship22.ContactExists);
         }
 
         [TestMethod]
@@ -159,11 +435,11 @@ namespace ContactMerger.Tests.Engines.implementations
         }
 
         [TestMethod]
-        public async Task ContactsMatchFirstNameDifferentTest()
+        public async Task ContactsMatchOnlyFirstNameMatchesTest()
         {
             // Arrange
             var contact1 = _contactFactory.CreateContact("foo", "Bar", "baz");
-            var contact2 = _contactFactory.CreateContact("Fooo", "Bar", "baz");
+            var contact2 = _contactFactory.CreateContact("Foo", "meep", "yarg");
             var engine = new ContactMatchingEngine(_contactFactory);
 
             // Act
@@ -174,11 +450,11 @@ namespace ContactMerger.Tests.Engines.implementations
         }
 
         [TestMethod]
-        public async Task ContactsMatchLastNameDifferentTest()
+        public async Task ContactsMatchOnlyLastNameMatchesTest()
         {
             // Arrange
             var contact1 = _contactFactory.CreateContact("foo", "Bar", "baz");
-            var contact2 = _contactFactory.CreateContact("foo", "Barr", "baz");
+            var contact2 = _contactFactory.CreateContact("zort", "Bar", "yarg");
             var engine = new ContactMatchingEngine(_contactFactory);
 
             // Act
@@ -189,11 +465,41 @@ namespace ContactMerger.Tests.Engines.implementations
         }
 
         [TestMethod]
-        public async Task ContactsMatchEmailDifferentTest()
+        public async Task ContactsMatchOnlyEmailMatchesTest()
+        {
+            // Arrange
+            var contact1 = _contactFactory.CreateContact("foo", "Bar", "baz");
+            var contact2 = _contactFactory.CreateContact("zort", "meep", "baz");
+            var engine = new ContactMatchingEngine(_contactFactory);
+
+            // Act
+            var matching = await engine.ContactsMatch(contact1, contact2);
+
+            // Assert
+            Assert.IsTrue(matching);
+        }
+
+        [TestMethod]
+        public async Task ContactsMatchOnlyEmailDifferentTest()
         {
             // Arrange
             var contact1 = _contactFactory.CreateContact("foo", "Bar", "baz");
             var contact2 = _contactFactory.CreateContact("foo", "Bar", "ba");
+            var engine = new ContactMatchingEngine(_contactFactory);
+
+            // Act
+            var matching = await engine.ContactsMatch(contact1, contact2);
+
+            // Assert
+            Assert.IsTrue(matching);
+        }
+
+        [TestMethod]
+        public async Task ContactsMatchAllDifferentTest()
+        {
+            // Arrange
+            var contact1 = _contactFactory.CreateContact("foo", "Bar", "baz");
+            var contact2 = _contactFactory.CreateContact("zort", "meep", "yarg");
             var engine = new ContactMatchingEngine(_contactFactory);
 
             // Act

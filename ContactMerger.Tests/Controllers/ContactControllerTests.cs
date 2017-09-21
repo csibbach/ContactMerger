@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Security.Claims;
 using System.Security.Principal;
+using System.Threading;
 using System.Threading.Tasks;
 using ContactMerger.Controllers;
 using ContactMerger.DataProviders.contracts;
@@ -42,18 +42,15 @@ namespace ContactMerger.Tests.Controllers
             contactMatchingEngineMock.Setup(x => x.MergeContactLists(It.IsAny<IList<ContactList>>()))
                 .Returns(Task.FromResult(contactSet));
 
+            var identity = new GenericIdentity("username");
+            Thread.CurrentPrincipal = new GenericPrincipal(identity, null);
             var controller = new ContactController(contactProviderMock.Object,
                 credentialProviderMock.Object,
-                contactMatchingEngineMock.Object)
-            {
-                // Handy dandy thing to set the username
-                User = new ClaimsPrincipal(
-                    new GenericPrincipal(new GenericIdentity("username"), null))
-            };
+                contactMatchingEngineMock.Object);
 
 
             // Act
-            var set = await controller.Get();
+            var set = await controller.GetContactSet();
 
             // Assert
             Assert.AreEqual(contactSet, set);

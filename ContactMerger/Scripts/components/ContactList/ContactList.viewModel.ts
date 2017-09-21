@@ -3,7 +3,9 @@ import ContactListParams = require("components/ContactList/ContactListParams");
 import ContactSet = require("models/ContactSet");
 
 class ContactList {
-    private contactSet: ContactSet;
+    private contactSet: KnockoutObservable<ContactSet>;
+
+    public accountNames: KnockoutComputed<Account>;
 
     constructor() {
         // Injection here
@@ -11,6 +13,14 @@ class ContactList {
 
     public setup(params: ContactListParams) {
         this.contactSet = params.contactSet;
+
+        this.setupAccountNames();
+    }
+
+    private setupAccountNames() {
+        this.accountNames = ko.computed(() => {
+            return this.contactSet().accounts;
+        });
     }
 }
 

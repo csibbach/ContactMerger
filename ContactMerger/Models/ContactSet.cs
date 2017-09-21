@@ -4,7 +4,6 @@ namespace ContactMerger.Models
 {
     public class ContactSet
     {
-        public IList<ContactAccount> Accounts;
-        public IList<ContactRelationship> Relationships;
+        public IDictionary<string, IList<ContactRelationship>> ContactGrid;
     }
 }

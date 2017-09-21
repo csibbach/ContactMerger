@@ -1,3 +1,7 @@
 ﻿<div class="ContactList">
-    Contact List Visible
+    <table>
+        <tr data-bind="foreach: accountNames">
+            <td data-bind="text: $data"></td>
+        </tr>
+    </table>
 </div>

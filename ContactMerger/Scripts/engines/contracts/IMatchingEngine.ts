@@ -1,5 +1,0 @@
-﻿interface IMatchingEngine {
-
-}
-
-export = IMatchingEngine;

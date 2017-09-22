@@ -4,14 +4,20 @@ import IAjaxConnector = require("dataProviders/contracts/IAjaxConnector");
 class AjaxConnectorMock implements IAjaxConnector {
     public constructor(private assert: QUnitAssert) { }
 
-    public getPromise = new PromiseControls<any>(this.assert);
+    public getUrl: string;
+    public getControls = new PromiseControls<any>(this.assert);
     public get<T>(url: string): Promise<T> {
-        return this.getPromise.promise;
+        this.getUrl = url;
+        return this.getControls.promise;
     }
 
-    public postPromise = new PromiseControls<any>(this.assert);
+    public postUrl: string;
+    public postContent: any;
+    public postControls = new PromiseControls<any>(this.assert);
     public post<T>(url: string, content: any): Promise<T> {
-        return this.postPromise.promise;
+        this.postUrl = url;
+        this.postContent = content;
+        return this.postControls.promise;
     }
 };
 

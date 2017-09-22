@@ -3,14 +3,17 @@ define(["require", "exports", "tests/utility/PromiseControls"], function (requir
     var AjaxConnectorMock = (function () {
         function AjaxConnectorMock(assert) {
             this.assert = assert;
-            this.getPromise = new PromiseControls(this.assert);
-            this.postPromise = new PromiseControls(this.assert);
+            this.getControls = new PromiseControls(this.assert);
+            this.postControls = new PromiseControls(this.assert);
         }
         AjaxConnectorMock.prototype.get = function (url) {
-            return this.getPromise.promise;
+            this.getUrl = url;
+            return this.getControls.promise;
         };
         AjaxConnectorMock.prototype.post = function (url, content) {
-            return this.postPromise.promise;
+            this.postUrl = url;
+            this.postContent = content;
+            return this.postControls.promise;
         };
         return AjaxConnectorMock;
     }());

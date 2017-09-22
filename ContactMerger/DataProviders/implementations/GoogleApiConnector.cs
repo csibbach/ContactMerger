@@ -49,7 +49,7 @@ namespace ContactMerger.DataProviders.implementations
             });
 
             PeopleResource.ConnectionsResource.ListRequest peopleRequest =
-                service.People.Connections.List("person/me");
+                service.People.Connections.List("people/me");
             peopleRequest.RequestMaskIncludeField = "person.names,person.emailAddresses";
             var connectionsResponse = await peopleRequest.ExecuteAsync();
             return connectionsResponse.Connections;

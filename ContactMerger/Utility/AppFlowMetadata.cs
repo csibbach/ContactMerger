@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Web.Mvc;
 using Google.Apis.Auth.OAuth2;
@@ -10,6 +11,11 @@ using Google.Apis.Util.Store;
 
 namespace ContactMerger.Utility
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Excluding from coverage as this is just example code from Google, altered only to use the web.config settings
+    /// </summary>
+    [ExcludeFromCodeCoverage]
     public class AppFlowMetadata : FlowMetadata
     {
         private readonly string _username;

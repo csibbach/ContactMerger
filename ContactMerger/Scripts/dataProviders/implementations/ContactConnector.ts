@@ -2,6 +2,7 @@
 import IAjaxConnector = require("dataProviders/contracts/IAjaxConnector");
 import ContactAccount = require("models/ContactAccount");
 import ContactSet = require("models/ContactSet");
+import Contact = require("models/Contact");
 
 class ContactConnector implements IContactConnector {
     
@@ -19,10 +20,17 @@ class ContactConnector implements IContactConnector {
     public getContacts(): Promise<ContactSet> {
         return this.ajaxConnector.get("/Contact/GetContactSet");
     }
-};
 
-interface IContactSetResponse {
-    
-}
+    public addContacts(contact: Contact): Promise<string[]> {
+        var request = {
+            AccountEmail: contact.accountEmail,
+            FirstName: contact.firstName,
+            LastName: contact.lastName,
+            Email: contact.email
+        }
+
+        return this.ajaxConnector.post("/Contact/AddContacts", request);
+    }
+};
 
 export = ContactConnector;

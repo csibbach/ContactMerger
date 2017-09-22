@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Web.Mvc;
 using Newtonsoft.Json;
@@ -10,6 +11,7 @@ namespace ContactMerger.Utility
     /// <summary>
     /// Taken from Stack Overflow, not my code but super useful.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class JsonCamelCaseResult : ActionResult
     {
         public JsonCamelCaseResult(object data, JsonRequestBehavior jsonRequestBehavior)

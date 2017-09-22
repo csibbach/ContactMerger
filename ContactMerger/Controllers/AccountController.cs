@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -13,6 +14,7 @@ using ContactMerger.Models;
 namespace ContactMerger.Controllers
 {
     [Authorize]
+    [ExcludeFromCodeCoverage]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;

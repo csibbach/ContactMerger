@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Owin;
 using ContactMerger.Models;
 
 namespace ContactMerger.Controllers
 {
     [Authorize]
+    [ExcludeFromCodeCoverage]
     public class MeController : ApiController
     {
         private ApplicationUserManager _userManager;

@@ -90,8 +90,8 @@
     <Reference Include="Google.Apis.People.v1, Version=1.25.0.830, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.People.v1.1.25.0.830\lib\net45\Google.Apis.People.v1.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis.PeopleService.v1, Version=1.29.1.988, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.PeopleService.v1.1.29.1.988\lib\net45\Google.Apis.PeopleService.v1.dll</HintPath>
+    <Reference Include="Google.Apis.PeopleService.v1, Version=1.29.1.991, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.PeopleService.v1.1.29.1.991\lib\net45\Google.Apis.PeopleService.v1.dll</HintPath>
     </Reference>
     <Reference Include="Google.Apis.PlatformServices, Version=1.29.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.1.29.1\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
@@ -288,17 +288,17 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MeController.cs" />
     <Compile Include="DataProviders\contracts\IContactProvider.cs" />
+    <Compile Include="DataProviders\contracts\IGoogleApiConnector.cs" />
     <Compile Include="DataProviders\contracts\IGoogleCredentialProvider.cs" />
     <Compile Include="DataProviders\contracts\ISettingsProvider.cs" />
     <Compile Include="DataProviders\implementations\ContactProvider.cs" />
+    <Compile Include="DataProviders\implementations\GoogleApiConnector.cs" />
     <Compile Include="DataProviders\implementations\GoogleCredentialProvider.cs" />
     <Compile Include="DataProviders\implementations\WebConfigSettingsProvider.cs" />
     <Compile Include="Engines\contracts\IContactMatchingEngine.cs" />
     <Compile Include="Engines\implementations\ContactMatchingEngine.cs" />
     <Compile Include="Factories\contracts\IContactFactory.cs" />
-    <Compile Include="Factories\contracts\IGoogleServiceFactory.cs" />
     <Compile Include="Factories\implementations\ContactFactory.cs" />
-    <Compile Include="Factories\implementations\GoogleServiceFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

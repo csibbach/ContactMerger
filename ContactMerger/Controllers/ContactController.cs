@@ -24,7 +24,7 @@ namespace ContactMerger.Controllers
             _googleCredentialProvider = googleCredentialProvider;
             _contactMatchingEngine = contactMatchingEngine;
         }
-
+        
         public async Task<ActionResult> GetContactSet()
         {
             // Get all the registered account credentials
@@ -43,5 +43,30 @@ namespace ContactMerger.Controllers
             // Convert to JSON and on our way
             return new JsonCamelCaseResult(contactSet, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> AddContacts(AddClientRequest request)
+        {
+            // Get all the registered account credentials
+            var credentials = await _googleCredentialProvider.GetCredentials(User.Identity.GetUserName());
+
+            // Get all the credentials that are NOT the request.AccountEmail
+            var updateCredentials = credentials.Keys.Where(x => x != request.AccountEmail);
+
+            // Add contacts to all accounts that are not us.
+            var response = await Task.WhenAll(updateCredentials.Select(email =>
+                _contactProvider.AddContact(User.Identity.Name, credentials.FirstOrDefault().Key, request.FirstName, request.LastName, request.Email)));
+
+            // Returns a list of updated accounts
+            return new JsonCamelCaseResult(response, JsonRequestBehavior.DenyGet);
+        }
+    }
+
+    public class AddClientRequest
+    {
+        public string AccountEmail { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
     }
 }

@@ -1,13 +1,14 @@
-﻿using System.Web.Mvc;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Web.Mvc;
 
 namespace ContactMerger.Controllers
 {
     [Authorize]
+    [ExcludeFromCodeCoverage]
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
-            Session["someVal"] = "Hello";
             return View();
         }
     }

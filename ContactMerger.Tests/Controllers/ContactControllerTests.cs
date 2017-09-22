@@ -7,6 +7,7 @@ using ContactMerger.DataProviders.contracts;
 using ContactMerger.Engines.contracts;
 using ContactMerger.Factories.implementations;
 using ContactMerger.Models;
+using ContactMerger.Tests.Mocks;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -26,15 +27,7 @@ namespace ContactMerger.Tests.Controllers
             contactProviderMock.Setup(x => x.GetContacts("username", "account1@google.com"))
                 .Returns(Task.FromResult(_contactFactory.CreateContactList("account1@google.com", EContactAccountType.Google)));
 
-            var credentialProviderMock = new Mock<IGoogleCredentialProvider>();
-
-            // Stored credentials
-            var storedCredentials = new Dictionary<string, UserCredential>
-            {
-                {"account1@google.com", null}
-            };
-            credentialProviderMock.Setup(x => x.GetCredentials("username"))
-                .Returns(Task.FromResult(storedCredentials as IDictionary<string, UserCredential>)); // Wow that sucks
+            var credentialProviderMock = MyMockFactory.CreateGoogleCredentialProviderMock();
 
             // MatchingEngine
             var contactSet = _contactFactory.CreateContactSet(null);

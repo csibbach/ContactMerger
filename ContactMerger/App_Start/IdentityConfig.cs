@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -14,6 +11,7 @@ using ContactMerger.Models;
 
 namespace ContactMerger
 {
+    [ExcludeFromCodeCoverage]
     public class EmailService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)
@@ -23,6 +21,7 @@ namespace ContactMerger
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public class SmsService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)
@@ -33,6 +32,7 @@ namespace ContactMerger
     }
 
     // Configure the application user manager which is used in this application.
+    [ExcludeFromCodeCoverage]
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
@@ -89,6 +89,7 @@ namespace ContactMerger
     }
 
     // Configure the application sign-in manager which is used in this application.  
+    [ExcludeFromCodeCoverage]
     public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
     {
         public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager) :

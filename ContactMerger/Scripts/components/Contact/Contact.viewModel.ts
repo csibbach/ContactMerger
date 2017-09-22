@@ -63,12 +63,13 @@ class ContactViewModel {
     // Returns the promise so that it's easier to test.
     public syncContact(): Promise<void> {
         // This function will tell the app to use this contact's data in the others on this row
-        alert("sync requested");
-
-        return Promise.resolve().then(() => {
+        return this.contactConnector.addContacts(this.contact()).then(() => {
+            alert(
+                "Contact added! Note, it takes a while for systems to update so the state my not be reflected for several minutes.");
             // This is a handy way to make an observable work like a dedicated signal object. I prefer the latter but
             // it would be one more thing to bring in.
-            this.syncRequested.valueHasMutated();
+            // Commenting out, I wanted to just update after the add but Google doesn't update quickly enough to make it worthwhile
+            //this.syncRequested.valueHasMutated();
 
             this.showErrorMessage(false);
         }).catch((e: any) => {

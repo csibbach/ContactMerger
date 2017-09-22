@@ -71,7 +71,13 @@ how to fix all of these but they take extra time and thought that I just didn't 
 for this project. For instance, localization in a spa can use server-side resource files, but you
 need to send that language to the client, and there are cool things you should do with caching to
 optimize this. I also didn't spend any time with the optimizer settings, all the JS code should
-be bundled and would make the app a bit faster.
+be bundled and would make the app a bit faster. Of course, at the last moment, I found out the 
+published Google API helper only supports getting list of contacts (the majority of the app),
+so I quickly had to devise a way to do at least a contact add via direct http. D'oh! Last, after using
+it a bit, I found that google's API updates really slowly. You can see the contact directly in your
+google account between 0 and 5 minutes from the sync, but it won't be returned to me for a very long
+time. I think it also really suffers from the lack of a real button component, I need something to 
+indicate loading.
 
 Running The App
 You need to put the provided secrets.json file at the root of the file structure, and then hit play in

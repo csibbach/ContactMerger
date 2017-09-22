@@ -2,6 +2,7 @@ using System;
 using System.Web;
 
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+using System.Diagnostics.CodeAnalysis;
 
 using Ninject;
 using Ninject.Web.Common;
@@ -20,8 +21,7 @@ using ContactMerger.Engines.implementations;
 
 namespace ContactMerger.App_Start
 {
-    
-
+    [ExcludeFromCodeCoverage]
     public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -79,7 +79,7 @@ namespace ContactMerger.App_Start
             kernel.Bind<IGoogleCredentialProvider>().To<GoogleCredentialProvider>().InSingletonScope();
             kernel.Bind<IContactProvider>().To<ContactProvider>();
             kernel.Bind<IContactFactory>().To<ContactFactory>().InSingletonScope();
-            kernel.Bind<IGoogleServiceFactory>().To<GoogleServiceFactory>().InSingletonScope();
+            kernel.Bind<IGoogleApiConnector>().To<GoogleApiConnector>().InSingletonScope();
             kernel.Bind<IContactMatchingEngine>().To<ContactMatchingEngine>().InSingletonScope();
         }        
     }

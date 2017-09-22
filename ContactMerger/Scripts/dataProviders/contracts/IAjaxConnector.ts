@@ -3,6 +3,7 @@
 interface IAjaxConnector
 {
     get<T>(url: string): Promise<T>;
+    post<T>(url: string, content: any): Promise<T>;
 }
 
 export = IAjaxConnector;

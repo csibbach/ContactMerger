@@ -1,20 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ContactMerger.DataProviders.contracts;
-using ContactMerger.Factories.contracts;
 using Google.Apis.Auth.OAuth2;
 
 namespace ContactMerger.DataProviders.implementations
 {
     public class GoogleCredentialProvider: IGoogleCredentialProvider
     {
-        private readonly IGoogleServiceFactory _googleServiceFactory;
+        private readonly IGoogleApiConnector _googleApiConnector;
         private readonly Dictionary<string, Dictionary<string, UserCredential>> _credentials;
 
-        public GoogleCredentialProvider(IGoogleServiceFactory googleServiceFactory)
+        public GoogleCredentialProvider(IGoogleApiConnector googleApiConnector)
         {
-            _googleServiceFactory = googleServiceFactory;
+            _googleApiConnector = googleApiConnector;
             _credentials = new Dictionary<string, Dictionary<string, UserCredential>>();
         }
 
@@ -23,17 +21,7 @@ namespace ContactMerger.DataProviders.implementations
             // We have to turn the credential into an email address for storage.
             // It would be really cool if this info was given to us via the credential itself
             // but such is not the case.
-            // Create a Google service object
-            var peopleService = _googleServiceFactory.CreatePeopleService(credential);
-
-            var peopleRequest =
-                peopleService.People.Get("people/me");
-            peopleRequest.RequestMaskIncludeField = "person.names,person.emailAddresses";
-            var connectionsResponse = await peopleRequest.ExecuteAsync();
-
-            // Get the email address from the response.
-            // TODO: Error handling; if they don't have an email address this will break
-            var email = connectionsResponse.EmailAddresses.First().Value;
+            var email = await _googleApiConnector.GetEmailAddressForCredential(credential);
 
             // Get the current list of credentials for this username. Create the list if it doesn't
             // exist.

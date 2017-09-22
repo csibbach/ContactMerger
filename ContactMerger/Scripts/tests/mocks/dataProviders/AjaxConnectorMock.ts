@@ -8,6 +8,11 @@ class AjaxConnectorMock implements IAjaxConnector {
     public get<T>(url: string): Promise<T> {
         return this.getPromise.promise;
     }
+
+    public postPromise = new PromiseControls<any>(this.assert);
+    public post<T>(url: string, content: any): Promise<T> {
+        return this.postPromise.promise;
+    }
 };
 
 export = AjaxConnectorMock;

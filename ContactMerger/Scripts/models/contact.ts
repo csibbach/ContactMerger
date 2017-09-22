@@ -1,6 +1,4 @@
-﻿import ko = require("knockout");
-
-class Contact {
+﻿class Contact {
     public firstName: string;
     public lastName: string;
     public email: string;

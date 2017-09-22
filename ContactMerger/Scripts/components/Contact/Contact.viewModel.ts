@@ -1,7 +1,10 @@
 ﻿import ko = require("knockout");
 import ContactParams = require("components/Contact/ContactParams");
 import ContactModel = require("models/Contact");
-import IContactConnector = require("dataProviders/contracts/IContactConnector");
+import IContactConnector = require("dataProviders/contracts/IContactConnector"); 
+import ButtonContracts = require("components/Button/Button.contracts");
+import ButtonParams = ButtonContracts.ButtonParams;
+import EButtonType = ButtonContracts.EButtonType;
 
 class ContactViewModel {
     public name: KnockoutComputed<string>;
@@ -11,6 +14,7 @@ class ContactViewModel {
     public contactExists: KnockoutComputed<boolean>;
     public showErrorMessage: KnockoutObservable<boolean>;
     public notOnlyColumn: KnockoutObservable<boolean>;
+    public syncButton: ButtonParams;
     
     private contact: KnockoutObservable<ContactModel>;
     private contactConnector: IContactConnector;
@@ -31,7 +35,7 @@ class ContactViewModel {
         this.name = ko.computed(() => {
             let contact = this.contact();
             if (contact.firstName === "" && contact.lastName === "") {
-                return "No Name";
+                return "No name";
             }
 
             // Yeah, last name only will have a leading space...
@@ -58,26 +62,30 @@ class ContactViewModel {
             return this.contact().contactExists;
         });
 
+        this.setupSyncButton();
     }
 
-    // Returns the promise so that it's easier to test.
-    public syncContact(): Promise<void> {
-        // This function will tell the app to use this contact's data in the others on this row
-        return this.contactConnector.addContacts(this.contact()).then(() => {
-            alert(
-                "Contact added! Note, it takes a while for systems to update so the state my not be reflected for several minutes.");
-            // This is a handy way to make an observable work like a dedicated signal object. I prefer the latter but
-            // it would be one more thing to bring in.
-            // Commenting out, I wanted to just update after the add but Google doesn't update quickly enough to make it worthwhile
-            //this.syncRequested.valueHasMutated();
+    private setupSyncButton() {
+        this.syncButton = new ButtonParams("Sync",
+            (): Promise<void> => {
+                // This function will tell the app to use this contact's data in the others on this row
+                return this.contactConnector.addContacts(this.contact()).then(() => {
+                    alert(
+                        "Contact added! Note, it takes a while for systems to update so the state my not be reflected for several minutes.");
+                    // This is a handy way to make an observable work like a dedicated signal object. I prefer the latter but
+                    // it would be one more thing to bring in.
+                    // Commenting out, I wanted to just update after the add but Google doesn't update quickly enough to make it worthwhile
+                    //this.syncRequested.valueHasMutated();
 
-            this.showErrorMessage(false);
-        }).catch((e: any) => {
-            this.showErrorMessage(true);
+                    this.showErrorMessage(false);
+                }).catch((e: any) => {
+                    this.showErrorMessage(true);
 
-            // Mark the promise as having failed.
-            throw e;
-        });
+                    // Mark the promise as having failed.
+                    throw e;
+                });
+            },
+            EButtonType.Primary);
     }
 }
 

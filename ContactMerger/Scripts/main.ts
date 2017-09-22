@@ -2,6 +2,7 @@
 import ViewModelFactory = require("infrastructure/ViewModelFactory");
 import IViewModel = require("infrastructure/IViewModel");
 import kernel = require("infrastructure/Kernel");
+import ButtonViewModel = require("components/Button/Button.viewModel");
 import AccountListViewModel = require("components/AccountList/AccountList.viewModel");
 import ContactViewModel = require("components/Contact/Contact.viewModel");
 import ContactListViewModel = require("components/ContactList/ContactList.viewModel");
@@ -29,6 +30,7 @@ function registerComponent(componentName: string, viewModel: Function) {
 }
 
 // Register all the components we're going to use
+registerComponent("Button", ButtonViewModel);
 registerComponent("AccountList", AccountListViewModel);
 registerComponent("Contact", ContactViewModel);
 registerComponent("ContactMerger", ContactMergerViewModel);

@@ -3,6 +3,9 @@ import AccountListParams = require("components/AccountList/AccountListParams");
 import IContactConnector = require("dataProviders/contracts/IContactConnector");
 import ContactSet = require("models/ContactSet");
 import ContactListParams = require("components/ContactList/ContactListParams");
+import ButtonContracts = require("components/Button/Button.contracts");
+import ButtonParams = ButtonContracts.ButtonParams;
+import EButtonType = ButtonContracts.EButtonType;
 
 class ContactMerger {
     private contactConnector: IContactConnector;
@@ -12,7 +15,11 @@ class ContactMerger {
     public accountList: AccountListParams;
     public showContactList: KnockoutComputed<boolean>;
     public contactList: ContactListParams;
+    public fetchContacts: ButtonParams;
     public showErrorMessage: KnockoutObservable<boolean>;
+
+    // Non-revealed promises pose a testing pattern problem. Easiest way is to put them in a variable
+    public updateContactSetPromise: Promise<void>;
 
     // ReSharper disable once InconsistentNaming
     constructor(IContactConnector: IContactConnector) {
@@ -25,15 +32,12 @@ class ContactMerger {
         this.syncRequested = ko.observable(false);
         this.syncRequested.subscribe(() => {
             // Perform a sync if anybody triggers this observable
-            this.updateContactSet();
+            this.updateContactSetPromise = this.updateContactSet();
         });
 
         this.setupContactList();
         this.setupAccountList();
-    }
-
-    public fetchContacts(): Promise<void> {
-        return this.updateContactSet();
+        this.setupFetchContacts();
     }
 
     private updateContactSet(): Promise<void> {
@@ -46,6 +50,14 @@ class ContactMerger {
             // Continue the chain
             throw e;
         });
+    }
+
+    private setupFetchContacts() {
+        this.fetchContacts = new ButtonParams("Fetch Contacts",
+            (): Promise<void> => {
+                return this.updateContactSet();
+            },
+            EButtonType.Primary);
     }
 
     private setupAccountList() {

@@ -334,6 +334,7 @@
     <Content Include="README.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\components\Button\Button.template.html" />
     <Content Include="Scripts\components\ContactList\ContactList.template.html" />
     <Content Include="Scripts\components\ContactMerger\ContactMerger.template.html" />
     <Content Include="Scripts\components\Contact\Contact.template.html" />
@@ -347,6 +348,8 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Scripts\chutzpah.json" />
     <None Include="Scripts\library\jquery\jquery-3.2.1.intellisense.js" />
+    <TypeScriptCompile Include="Scripts\components\Button\Button.viewModel.ts" />
+    <TypeScriptCompile Include="Scripts\components\Button\Button.contracts.ts" />
     <TypeScriptCompile Include="Scripts\components\ContactList\ContactList.viewModel.ts" />
     <TypeScriptCompile Include="Scripts\components\ContactList\ContactListParams.ts" />
     <TypeScriptCompile Include="Scripts\dataProviders\contracts\IAjaxConnector.ts" />
@@ -451,6 +454,10 @@
     <TypeScriptCompile Include="Scripts\models\Contact.ts" />
     <TypeScriptCompile Include="Scripts\models\ContactSet.ts" />
     <TypeScriptCompile Include="Scripts\tests\components\AccountList.test.ts" />
+    <TypeScriptCompile Include="Scripts\tests\components\Button.test.ts" />
+    <TypeScriptCompile Include="Scripts\tests\components\Contact.test.ts" />
+    <TypeScriptCompile Include="Scripts\tests\components\ContactList.test.ts" />
+    <TypeScriptCompile Include="Scripts\tests\components\ContactMerger.test.ts" />
     <TypeScriptCompile Include="Scripts\tests\mocks\dataProviders\AjaxConnectorMock.ts" />
     <TypeScriptCompile Include="Scripts\tests\mocks\dataProviders\ContactConnectorMock.ts" />
     <TypeScriptCompile Include="Scripts\tests\utility\PromiseControls.ts" />

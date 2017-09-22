@@ -6,6 +6,6 @@
             <span data-bind="text: accountName"></span>
         </li>
     </ul>
-    <a class="btn btn-default" href="/ContactAccount/AddGoogleContactAccount" role="button">Add Google Account</a>
+    <span data-bind="component: {name: 'Button', params: addGoogleAccount}"></span>
     <div class="has-error" data-bind="visible: showErrorMessage">Unable to retrieve registered accounts!</div>
 </div>

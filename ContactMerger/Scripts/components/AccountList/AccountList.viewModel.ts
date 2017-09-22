@@ -3,6 +3,9 @@ import AccountListParams = require("components/AccountList/AccountListParams");
 import IContactConnector = require("dataProviders/contracts/IContactConnector");
 import ContactAccount = require("models/ContactAccount");
 import EAccountType = require("enum/EAccountType");
+import ButtonContracts = require("components/Button/Button.contracts");
+import ButtonParams = ButtonContracts.ButtonParams;
+import EButtonType = ButtonContracts.EButtonType;
 
 class AccountList {
     private contactConnector: IContactConnector;
@@ -10,6 +13,11 @@ class AccountList {
 
     public accountNames: KnockoutComputed<AccountLineItem[]>;
     public showErrorMessage: KnockoutObservable<boolean>;
+    public addGoogleAccount: ButtonParams;
+
+    // Pattern issue- how to solve setup() doing something async and test it. More advanced framework would allow setup
+    // to return this status directly. I'm just going to put the promise in a public spot
+    public setupTestPromise: Promise<void>;
 
     // ReSharper disable InconsistentNaming
     constructor(IContactConnector: IContactConnector) {
@@ -22,15 +30,25 @@ class AccountList {
         this.showErrorMessage = ko.observable(false);
 
         this.setupAccountNames();
+        this.setupAddGoogleAccount();
 
         // Get the list of account names and show them when they are loaded.
-        this.contactConnector.getContactAccounts().then((contactAccounts: ContactAccount[]) => {
+        this.setupTestPromise = this.contactConnector.getContactAccounts().then((contactAccounts: ContactAccount[]) => {
             this.contactAccounts(contactAccounts);
                 this.showErrorMessage(false);
             })
             .catch(() => {
                 this.showErrorMessage(true);
             });
+    }
+
+    private setupAddGoogleAccount() {
+        this.addGoogleAccount = new ButtonParams("Add Google Account",
+            () => {
+                window.location.href = "/ContactAccount/AddGoogleContactAccount";
+                return null;
+            },
+            EButtonType.Default);
     }
 
     private setupAccountNames() {

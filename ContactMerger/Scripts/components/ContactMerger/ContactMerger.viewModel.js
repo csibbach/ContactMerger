@@ -1,5 +1,7 @@
-define(["require", "exports", "knockout", "components/AccountList/AccountListParams", "components/ContactList/ContactListParams"], function (require, exports, ko, AccountListParams, ContactListParams) {
+define(["require", "exports", "knockout", "components/AccountList/AccountListParams", "components/ContactList/ContactListParams", "components/Button/Button.contracts"], function (require, exports, ko, AccountListParams, ContactListParams, ButtonContracts) {
     "use strict";
+    var ButtonParams = ButtonContracts.ButtonParams;
+    var EButtonType = ButtonContracts.EButtonType;
     var ContactMerger = (function () {
         // ReSharper disable once InconsistentNaming
         function ContactMerger(IContactConnector) {
@@ -12,13 +14,11 @@ define(["require", "exports", "knockout", "components/AccountList/AccountListPar
             this.syncRequested = ko.observable(false);
             this.syncRequested.subscribe(function () {
                 // Perform a sync if anybody triggers this observable
-                _this.updateContactSet();
+                _this.updateContactSetPromise = _this.updateContactSet();
             });
             this.setupContactList();
             this.setupAccountList();
-        };
-        ContactMerger.prototype.fetchContacts = function () {
-            return this.updateContactSet();
+            this.setupFetchContacts();
         };
         ContactMerger.prototype.updateContactSet = function () {
             var _this = this;
@@ -30,6 +30,12 @@ define(["require", "exports", "knockout", "components/AccountList/AccountListPar
                 // Continue the chain
                 throw e;
             });
+        };
+        ContactMerger.prototype.setupFetchContacts = function () {
+            var _this = this;
+            this.fetchContacts = new ButtonParams("Fetch Contacts", function () {
+                return _this.updateContactSet();
+            }, EButtonType.Primary);
         };
         ContactMerger.prototype.setupAccountList = function () {
             this.accountList = new AccountListParams();

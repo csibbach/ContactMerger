@@ -264,3 +264,4 @@ __pycache__/
 **/Scripts/components/**/*.js
 **/Scripts/dataProviders/**/*.js
 **/Scripts/engines/**/*.js
+**/Scripts/tests/**/*.js

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using ContactMerger.Factories.implementations;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ContactMerger.Tests.Factories.implementations
 {
@@ -8,7 +9,28 @@ namespace ContactMerger.Tests.Factories.implementations
         [TestMethod]
         public void CreateFlowMetadataTest()
         {
-            Assert.Fail();
+            // Arrange
+            var factory = new FlowMetadataFactory();
+
+            // Act
+            var flowMetadata = factory.CreateFlowMetadata();
+
+            // Assert
+            Assert.AreEqual("Account0", flowMetadata.GetUserId(null));
+        }
+
+        [TestMethod]
+        public void RequestNewAccountTest()
+        {
+            // Arrange
+            var factory = new FlowMetadataFactory();
+
+            // Act
+            factory.RequestNewAccount();
+            var flowMetadata = factory.CreateFlowMetadata();
+
+            // Assert
+            Assert.AreEqual("Account1", flowMetadata.GetUserId(null));
         }
     }
 }

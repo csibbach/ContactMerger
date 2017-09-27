@@ -45,24 +45,25 @@ namespace ContactMerger.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddContacts(AddClientRequest request)
+        public async Task<ActionResult> AddContacts(AddContactRequest request)
         {
             // Get all the registered account credentials
-            var credentials = await _googleCredentialProvider.GetCredentials(User.Identity.GetUserName());
+            var username = User.Identity.GetUserName();
+            var credentials = await _googleCredentialProvider.GetCredentials(username);
 
             // Get all the credentials that are NOT the request.AccountEmail
             var updateCredentials = credentials.Keys.Where(x => x != request.AccountEmail);
 
             // Add contacts to all accounts that are not us.
             var response = await Task.WhenAll(updateCredentials.Select(email =>
-                _contactProvider.AddContact(User.Identity.Name, credentials.FirstOrDefault().Key, request.FirstName, request.LastName, request.Email)));
+                _contactProvider.AddContact(User.Identity.Name, email, request.FirstName, request.LastName, request.Email)));
 
             // Returns a list of updated accounts
             return new JsonCamelCaseResult(response, JsonRequestBehavior.DenyGet);
         }
     }
 
-    public class AddClientRequest
+    public class AddContactRequest
     {
         public string AccountEmail { get; set; }
         public string FirstName { get; set; }

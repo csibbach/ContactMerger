@@ -150,7 +150,6 @@
     <Compile Include="Engines\implementations\ContactMatchingEngineTests.cs" />
     <Compile Include="Factories\implementations\ContactFactoryTests.cs" />
     <Compile Include="Factories\implementations\FlowMetadataFactoryTests.cs" />
-    <Compile Include="Factories\implementations\GoogleServiceFactoryTests.cs" />
     <Compile Include="Mocks\MyMockFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

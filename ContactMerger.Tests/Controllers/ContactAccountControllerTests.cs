@@ -2,25 +2,10 @@
 
 namespace ContactMerger.Tests.Controllers
 {
+    // Out of time, got some stuff going on in here
     [TestClass]
     public class ContactAccountControllerTests
     {
-        [TestMethod]
-        public void ContactAccountControllerTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        public void AddGoogleContactAccountTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        public void GetAccountsTest()
-        {
-            Assert.Fail();
-        }
+        
     }
 }

@@ -265,3 +265,4 @@ __pycache__/
 **/Scripts/dataProviders/**/*.js
 **/Scripts/engines/**/*.js
 **/Scripts/tests/**/*.js
+ContactMerger.zip

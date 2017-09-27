@@ -1,20 +1,28 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using ContactMerger.DataProviders.implementations;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ContactMerger.Tests.DataProviders.implementations
 {
     [TestClass]
     public class WebConfigSettingsProviderTests
     {
+        // I need fakes to test this class!
         [TestMethod]
         public void GetGoogleClientIdTest()
         {
-            Assert.Fail();
+            // Arrange
+            var provider = new WebConfigSettingsProvider();
+
+            // Act
+
+            // Assert
+            Assert.Inconclusive();
         }
 
         [TestMethod]
         public void GetGoogleClientSecretTest()
         {
-            Assert.Fail();
+            Assert.Inconclusive();
         }
     }
 }

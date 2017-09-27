@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Security.Principal;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 using ContactMerger.DataProviders.contracts;
+using ContactMerger.Factories.contracts;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
@@ -63,6 +67,15 @@ namespace ContactMerger.Tests.Mocks
             return connectorMock;
         }
 
+        public static Mock<IFlowMetadataFactory> CreateFlowMetadataFactoryMock()
+        {
+            var mock = new Mock<IFlowMetadataFactory>();
+            mock.Setup(x => x.RequestNewAccount());
+            mock.Setup(x => x.CreateFlowMetadata()).Returns
+
+            return mock;
+        }
+
         public static Person CreatePerson(string firstName = null, string lastName = null, string email = null)
         {
             var person = new Person();
@@ -91,6 +104,20 @@ namespace ContactMerger.Tests.Mocks
             }
 
             return person;
+        }
+
+        public static void SetUsernameOnController(Controller controller, string username = "username")
+        {
+            var fakeHttpContext = new Mock<HttpContextBase>();
+            var fakeIdentity = new GenericIdentity(username);
+            var principal = new GenericPrincipal(fakeIdentity, null);
+
+            fakeHttpContext.Setup(t => t.User).Returns(principal);
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Setup(t => t.HttpContext).Returns(fakeHttpContext.Object);
+            
+            //Set your controller ControllerContext with fake context
+            controller.ControllerContext = controllerContext.Object;
         }
     }
 }

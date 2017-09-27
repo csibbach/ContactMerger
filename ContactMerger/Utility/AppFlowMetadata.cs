@@ -20,26 +20,8 @@ namespace ContactMerger.Utility
     {
         private readonly string _username;
 
-        private static readonly IAuthorizationCodeFlow FlowInstance =
-            new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
-            {
-                ClientSecrets = new ClientSecrets
-                {
-                    ClientId = Setting<string>("GoogClientID"),
-                    ClientSecret = Setting<string>("GoogClientSecret")
-                },
-                Scopes = new[]
-                {
-                    PeopleService.Scope.Contacts,
-                    PeopleService.Scope.UserinfoEmail,
-                    PeopleService.Scope.UserinfoProfile
-                },
-                // This is pretty bad, we would not ordinarily store this info for a web app
-                // in a FileDataStore. However, for purposes of this project this will work;
-                // implementing a proper database-based DataStore is more work than I want
-                // to do right now.
-                DataStore = new FileDataStore("ContactMerger")
-            });
+        private static IAuthorizationCodeFlow _flowInstance;
+
         public AppFlowMetadata(string username)
         {
             _username = username;
@@ -58,7 +40,33 @@ namespace ContactMerger.Utility
 
         public override IAuthorizationCodeFlow Flow
         {
-            get { return FlowInstance; }
+            get
+            {
+                if (_flowInstance == null)
+                {
+                    _flowInstance =
+                        new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+                        {
+                            ClientSecrets = new ClientSecrets
+                            {
+                                ClientId = Setting<string>("GoogClientID"),
+                                ClientSecret = Setting<string>("GoogClientSecret")
+                            },
+                            Scopes = new[]
+                            {
+                                PeopleService.Scope.Contacts,
+                                PeopleService.Scope.UserinfoEmail,
+                                PeopleService.Scope.UserinfoProfile
+                            },
+                            // This is pretty bad, we would not ordinarily store this info for a web app
+                            // in a FileDataStore. However, for purposes of this project this will work;
+                            // implementing a proper database-based DataStore is more work than I want
+                            // to do right now.
+                            DataStore = new FileDataStore("ContactMerger")
+                        });
+                }
+                return _flowInstance;
+            }
         }
 
         private static T Setting<T>(string name)
